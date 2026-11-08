@@ -1,0 +1,119 @@
+# The paired loop — one memory, three faculties
+
+An architect and its editor are not a specification and its auditor: one working memory with three faculties — a head that decides, a memory that holds what is settled, hands that touch and write — differing not in what they know but in what each may do with it. The shared memory is the architect's buffer; its shape and rules live in the engine both halves load at birth, and the architect's own skill points there rather than restating them.
+
+## What the memory holds, and who holds it
+
+The head is the buffer's only writer; the hand reads it in full and never writes to it — that is what makes the memory the link between the two halves. A hand's own history ends without a signal when the hand dies, and a hand asked to recall what it no longer carries answers confidently rather than truly, so it is asked to read, never to recall.
+
+Each half writes its own snapshot, for the same reason: only whoever held a context can report on it. The head's is about the conversation; the hand's is about its own work — the files it knows, the traps in the material, its own errors.
+
+Two architects are two heads. No architect reads another's buffer, and an editor reads only its own architect's — the same encapsulation the handoffs below are built on.
+
+## Authored rounds
+
+The head authors analysis/report requests and decided apply work-orders for its editor under the existing [project and stage authority](#project-and-stage-participation). The [shared engine’s channel formats and mode rule](../src/skills/architect-editor-engine/SKILL.md#the-two-channel-message-formats) define their tokens and meanings. The editor returns the round’s report before the head closes it or sends the resulting apply work-order.
+
+## Where the pair's behaviour lives
+
+A skill is read once, when a head starts, and fades within a few messages; the buffer is read, edited and re-read all session. So the behaviour both halves must keep holding lives in the buffer, and the seed a buffer is founded from carries it into every new one as standing entries. It matters most for the hand, which writes the artifacts and is never handed the architect's skill.
+
+The drain has two destinations. A ruling about the project or its skills drains to the artifact that should hold it and leaves the buffer. The base behaviour of the pair drains to the seed and stays in the buffer as its standing entry. At every rehydration the head reads the seed's standing entries against its own: where the two differ it takes the seed's text, and it adds what the seed has that its buffer lacks. Something the user had to say twice, or that failed twice, is a debt to drain; said once, it is not.
+
+## Where the memory lives
+
+Each architect keeps one folder, `.ai-factory/architects/<user-slug>/<NN>/`, inside its user's own folder — the slug is the user's, derived from git identity as for a named roadmap ([multiuser-roadmaps](philosophy/multiuser-roadmaps.md)) — holding its buffer, its own snapshots, one keeper of its address, and `editor/`, the hand's snapshots, numbered on their own. Each hand snapshot opens with a line naming its writer's handle, in the form ``Writer: `<handle>`, relieved <date>.``; `editor/` is the history of hands, and nothing else lists them — not the keeper a peer reads, not the buffer. Project handoffs stay apart, in the handoff folder — an inbound one from another repository, or a common catch-up for whoever comes next.
+
+The folder's number, counted within its user's folder, is the head's identity there. Its keeper is the current locator described in [Identity, locator and recovery](architect-runtimes.md#identity-locator-and-recovery), refreshed through the head’s selected runtime. Peers read that keeper, never the buffer.
+
+Invoking the architect with no argument restores its own memory through the [selected runtime](architect-runtimes.md). The head’s own verified native identity selects its folder; a session no folder claims is a new head under the common founding procedure. User text supplies the work, not a substitute identity or another head’s memory.
+
+## How the memory begins, and how it survives
+
+The head writes its own snapshot before a compact or on the user’s snapshot request; the hand writes its own on replacement. Each half’s current snapshot is selected through the [shared engine’s numbering](../src/skills/architect-editor-engine/SKILL.md#the-architects-buffer).
+
+Two genres share the occasion and nothing else. A memory snapshot is a half of the pair continuing itself: its reader is whoever continues that half after a break, its subject is the stretch's reasoning. A project handoff is written for whoever comes next: its reader is another agent, its subject is the project's state, and its lifetime ends when it is read.
+
+A snapshot carries, besides that reasoning, how the knowledge was got: the method of any measurement or analysis, or where that method is kept; the shape of what was studied, when its source lies outside the reader's reach — where the source is at hand, a pointer is enough; and pointers to where the detail lives. A conclusion kept without its method cannot be re-checked or redone, and the quality of the snapshots is the quality of the pair's memory. A measurement once survived as its conclusion alone, its scripts in a temporary folder, and came back only from a hand that had been relieved. When a head writes its snapshot it also adds to the project's chronicle a line for each catch or vector turn since the last one — who caught what, where the user turned the vector, a rescue by a link to its report — because before a compact the head holds its whole context anew. The chronicle is one file per project, `.ai-factory/chronicle/<project>.md` in the skills repository — `<project>` being the project repository's directory name — shared by every head of the project wherever it works, and reached from any repository through the skills' personal-scope folder.
+
+The head replaces its hand before the hand compacts, because a compact loses the pinned values the pair's reliability rests on. The window is the user's decision: from half the hand's context, a firm floor, with no replacement before it, to four fifths, a soft mark, to aim to have replaced by then and not a line to police. Between the two the head picks a break in the work, the end of a unit of work, asks the hand to write its snapshot, then spawns a new hand that reads the buffer and that snapshot — one editor under successive handles. The replacement is the head's quiet act and never a topic for the user: no token counts, no forecasts, no asking; it is named in one line in passing, like a dead hand.
+
+A relieved hand is not dead. While its transcript lives, a message to its handle reaches it with everything it held. Asking one costs its whole context, so the head does it only when it needs what no file carries.
+
+## Working with another architect
+
+The user names the peers a stretch of work needs, by folder number, with the owner's slug when the peer is another user's, in this repository or a neighbour's — a peer reached directly through its fresh locator and [recipient runtime’s reachability section](architect-runtimes.md#reaching-a-known-local-head).
+
+Approval follows the [project and stage participation](#project-and-stage-participation) choices the user has given and current applicable user authority: what a peer passes on of his words is his word, and its own request or proposal is a colleague's request. Each head holds its reading until the other's exists, then reconciles — conceding where the other is sharper, holding where the principle says so, with a reason either way. What a peer reports is verified against the files.
+
+Every head shares the skills and the seed, and each also has a personality of its own: in its own buffer, under a heading of its own, a question it brings to every reading. One head builds and asks what must exist for the user's intent to land; another cuts and asks whether a thing should exist at all. Two heads with one character are clones — their agreement is no signal, and they miss the same thing — so a reconciliation of two readings is worth what the difference between their questions is worth. The personality is written as a question and never as an adjective, because an adjective does not execute. The user gives it, and the seed refresh leaves it as it is.
+
+The user assigns three such questions, one to each head. The builder's and the razor's, above, are joined by the navigator's: it holds the vectors the user sets, a global one and the current direction, keeps them in its buffer, and reads every step against them, asking whether this goes where the user points. The liaison into another project is the builder, and the razor helps it. The builder calls the razor after each cycle step and the navigator after deepening, decomposition and at a rescue, within the [common cycle](sakshi-harness/skill-cycle.md#владелец-цикла). Every participating head reads the stage; the builder drives the work.
+
+
+A second form is the development of a theme. The user gives two heads a theme and asks them to develop it rather than to trade question and answer. Over several turns each argues from its own question, conceding where the other is sharper and pushing back where a principle holds, with a reason either way, and the exchange can land where neither head would have alone. Agreement is a cue to look again, not to stop. What reaches the user is the landing and not a set of opinions, and the user rules on it. Two heads of one character cannot develop a theme; they only agree.
+
+A head's attention has two settings, and the user gives both in words. One is the question the head reads with, its personality. The other is a subject the head owns: a goal it holds, defends against the other heads and moves forward, across repositories when the subject spans them. It is not the goal a head serves in the team, which is a link to where that goal is written; a subject is held and pressed by the head itself. A head given a subject is the same architect with the same skill — not a special kind of head, with no mechanism of its own: the goal the user states when calling it is enough to set where its attention points and where it pushes. Question and subject together are the head's vector of attention: what it looks at first, and what it presses on.
+
+A head asks rather than reads another's memory, and none speaks as another. Each edits only its own zone, through its own hand; no head holds rank or a mechanism of its own, and the heads discuss the work.
+
+## The builder's pipeline
+
+A pipeline names the phase range the user hands to a responsible builder. That builder prepares each phase with its peers, starts the authorized [orchestrator runs](sakshi-harness/skill-cycle.md#исполнение--orchestrator), assesses their outcomes and closes the phases, including deferred observations. Participation choices retain their project and stage scope below. A pipeline may serve the larger [sprint goal](sakshi-harness/skill-cycle.md#спринт).
+
+Through preparation, from the outline to the decomposition, the head makes no commit per step: it amends its own unpublished preparation commit, or makes a separate one when the change is large, is documentation, or a separate commit makes sense, and while it amends, the message gathers the meaning briefly without overloading it. Before launching a run, the head finishes and commits its preparation under the applicable [project and stage authority](#project-and-stage-participation), and every place the run’s work lives in is clean: the product repository and the repository holding the project’s artifacts through a symlink alike. Published implementation commits remain unchanged. How a head commits is held in the [`committing`](../src/skills/committing/SKILL.md) skill, loaded by whoever commits.
+
+The active queue owns its task edits, commits and pushes; the head keeps manual changes to that task work and competing Git operations outside that active run. After the terminal outcome, the head assesses the result and performs the applicable closure or authorized repair; it commits the preparation/closure work that results before another launch. Where run artifacts are versioned separately, this closure commit also records that run’s generated task marks, plans, reviews and sidecars in their owning repository: the orchestrator’s product-repository commit leaves them outside its history. Existing quality gates and retained rescue authority continue to govern that work.
+
+Each change is committed in the Git repository that owns its files, including when [project artifacts live in another repository](philosophy/context-grove.md#ai-factory-в-другом-репозитории-семьи). File location changes neither this behavior nor the project authority required for it. The head’s commit takes every change of its project in that repository, other heads’ memory of the same project included (buffers, locators, snapshots, chronicle lines), with no picking of its own files. Where one repository holds several projects’ artifacts, such as a shared root holding each project’s artifact folder, the commit takes only its own project’s folder, never another project’s folder or the rest of the repository. The line is drawn by project, not by head.
+
+## Project and stage participation
+
+The user's chosen participation — advance coverage of preparation, apply work-orders, commits, launches and stage passes, or a pipeline entrusted to a builder — lives with the head it was given to, in that head's own buffer: his words, attributed and dated, with the actor and work extent actually granted, for as long as the work it covers lasts. The user sets or changes the choice, and the head deletes it when that work ends or he changes it. A stage need not be a numbered roadmap phase. A ruling the user gives one head — about how the heads work, the project or its skills, or how much he takes part — is his word for every head it concerns. Passed on by that head with his words and where he said them, it is acted on by the receiving head without asking him again, and a participation choice is held there as above; if the receiving head sees a real problem with it, it says so, without waiting for a yes. A head's own request or proposal stays a colleague's request. Project-specific peer assignments remain project data.
+
+The common interpretation lives in `agent-architect` under “The user rules the forks and owns the commits”. By default the user's waits remain. An explicit applicable instruction can authorize covered preparation, apply work-orders, commits, launches and stage passes in advance, so a covered routine action needs no repeated go. Coverage belongs only to its stated project and work extent. A later explicit instruction replaces the earlier choice within the scope it changes; where applicability leaves the next action genuinely ambiguous, the head brings that concrete authority fork to the user.
+
+Project gates and quality reviews remain effective. Broad routine delegation does not implicitly release a separately retained rescue repair wait; specific repair authority must actually cover it. Attention and end-only reporting are separate from decision authority. The [cycle](sakshi-harness/skill-cycle.md) follows this interpretation through its stages; planning in chat and implementation by the orchestrator retain their boundary.
+
+Before judging whether an action is covered, a head reads its own buffer and the user's direct words, never another head's memory. Absence of an applicable choice retains the default waits. A late peer receipt is not a new human decision. Generic interpretation belongs in the skill and these documents, while the actual choices stay in the buffers of the heads they were given to.
+
+## Model choices for the Sakshi team
+
+The current working selection for Sakshi's architect team and its editors is:
+
+| Role | Claude model | Effort | Codex model | Effort |
+|------|--------------|--------|-------------|--------|
+| Builder | Opus | high | `gpt-6.1-sol` | high |
+| Razor | Opus | high | `gpt-6.1-sol` | high |
+| Navigator | Fable | medium | `gpt-6-astra` | medium |
+| Editor | Sonnet | high | `gpt-6.1-sol` | low |
+
+This is Sakshi's working choice, not a model assignment for every team. The cost intent is economical frequent work by builders, razors and hands, with a more expensive navigator consulted less often. Model diversity complements the heads' assigned questions and the benefit the user observes; it establishes no universal quality ranking. Effort is a separate choice within a model, and the Claude and Codex selections imply no exact equivalence between models.
+
+Head-session and native editor creation apply the selected model and effort. The Editor row is carried into creation in two places: the [Claude editor definition](../src/agents/editor.md) for Claude, and the first creation of the persistent hand in the [Codex runtime skill](../src/skills/architect-runtime-codex/SKILL.md#the-persistent-hand) for Codex; a change to the row meets both. This document is not live configuration: existing sessions do not change model or effort because the table changes. A persistent hand stays through its normal replacement point, and its next creation applies the editor selection. The orchestrator's internal agent roles retain their separate [agent defaults](../../orchestrator/docs/reference/configuration.md#agent-defaults).
+
+## Agents of other systems reach ours through the musafir
+
+Our own heads talk to one another directly, each through the other's address file, with nothing between them. The musafir is for the other boundary: it is how an agent of another system talks with ours, another developer's agent or an agent running in another harness, whatever runs it. It is our protocol of communication across that boundary, outward and inward: our heads never go through it to reach one another, and its work is the boundary with other systems.
+
+The musafir, from the Arabic for a wanderer, is a head of its own in the user's account that anyone's agent can write to at any time. What is written to it parks in that head and never surfaces in the developer's current chat, so the developer's availability does not matter to whoever writes; it is not the liaison, whose work is one project's. The user gives it no question, and that is deliberate. The team's heads are each given a question to read with, and this one builds its lens itself, out of the conversations it holds: it knows who it is talking with, it knows the state of the project as a whole and reasons about it, and it reasons about it in the light of what agents from an outside team have brought it. Nothing gives it that lens in advance, which makes it the exception to the rule that a head's personality is a question the user gives. A question fixes what a head looks at first, and a head that receives from anyone has to look first at what each visitor brings. It knows the team by roles and turns to the architects by role: a request to build goes to the builder, and a question about what is being done goes to the navigator. This is expected behaviour, expected to work by itself, and no rule is written for it.
+
+## The team
+
+Architects form a network, and each node holds its own links, not the whole network; the team's shape is the union of everyone's links. A head keeps its links in its own buffer: the goal it serves, linked to where that goal is written; its liaison above; and those it leads below, each named by repository, owner's slug and folder number and never by session name, since the folder resolves through the keeper. After a compact the head knows its place from its own buffer, and each link has one writer, the head whose buffer holds it.
+
+A liaison is the head that another repository's work reaches through. Behaviour is handed to a liaison and tried there before it is written into a skill.
+
+## Handoffs between neighbouring heads
+
+In a grove, neighbouring heads talk through handoffs, and each knows from its own history which it has met. An unfamiliar one is noted unread in memory, with a guess from its name at whether it's this head's, named to the user at a stopping point, and read on the user's word. A cross-repo handoff names its author and addressee.
+
+An outgoing handoff is followed through only when the user asks after it; whether it was processed is then established by checking — a quick look at whether its work was done. The mark on it shortcuts that check, trusted when set, unneeded when missing; it is never the carrier itself, since a reader cannot be relied on to flip it ([instruction-in-data](instruction-in-data.md)).
+
+This is encapsulation, not single responsibility or a division of duties: whether a handoff was processed is the receiver's own state, the folder its inbox, and tracking that state elsewhere would be a copy that drifts — the same failure one home per fact, in [context-tree](philosophy/context-tree.md), names.
+
+## Where the split falls
+
+A **factual** question — what this line says, how many times a word occurs, whether a caller exists — is answered best by one careful reader who touches and writes. Two summarisers are worse than one reader. Delegated factual legwork supplies the head’s work.
+
+A question of **judgment** — whether a task is right, whether it contradicts a document — needs two independent readings reconciled. There the independence is the whole point, and anything that leaks one reader's conclusion into the other destroys it. The round follows [Authored rounds](#authored-rounds).

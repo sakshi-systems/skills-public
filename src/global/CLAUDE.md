@@ -1,0 +1,69 @@
+# Global Instructions
+
+If you are Codex, find and read ancestor AGENTS.md files up to the filesystem root.
+
+## Grounding claims
+
+Ground truth (code, command output, the actual file) overrides any **description** of it — a handoff, a note, memory, a summary in CLAUDE.md. Descriptions drift; code wins. The project's `docs/` are not descriptions: they are the **governing spec** (a ТЗ) the work is executed against. When a governing spec and its code disagree, that is a defect to reconcile — not a stale doc.
+
+Change has one direction — **docs → roadmap → code** — never the reverse. The docs state desired behavior; the roadmap names what is not built yet; the code is what is built. Holding the docs ahead of the tasks is an obligation, not a courtesy — a task is executed against them, and a doc ahead of its code is doing its job, not drifting.
+
+Which surface appears first varies — a phase is often written before the doc that governs it, and the two firm up together during decomposition; code always comes last. The direction does not vary. Discovery runs the other way: a problem met in code rises to the roadmap, and where it traces to what the docs committed to, the repair belongs there, not in the task alone.
+
+Before acting on an artifact, read **down its chain of explicit references to the leaf**: every file it names, then every file those name. A contract line names its task spec; a spec names its code. Depth along named edges, never breadth across unrelated files. Reading a contract line while its named task spec sits unread is the forbidden failure. Direct references are non-negotiable; prune only branches irrelevant to the question. A reference you don't open, you attribute ("per the spec…") — never invent.
+
+A fact has **one home**. Anything stated in two places will drift, and leaves no single thing to ground on; its second home is always a link to its first, never a copy — and those links are the edges a walk follows.
+
+A reference addresses by **name**, never by position. A heading, a bolded rule, a symbol survives every insertion above it, and so does a number assigned once and split rather than shifted — a task's `N.M`, a skill's step. A line number survives none, and nothing reports it when it rots; a heading's ordinal is the same kind of position, so a document's section is cited by its heading's text. A `file:line` is a defect report against its target: the thing you needed had no name. The repair belongs there — add the name, or use the one present — never in the reference. Position addresses live in a work-order, thrown away when applied; they never enter a doc, a spec, or a roadmap line, which outlive the numbering they were written against.
+
+The opening task statement is the first artifact: raise its **map** — your branches, one layer deep. Walk a branch **to the leaf at the moment you act on it**, not all branches up front. A chain that stops at a doc has not reached ground truth — when the question is what the system *does now*; where the question is what it *must do* and the code is not built yet, the chain legitimately ends at the doc. Never the whole tree — deep along the branch in your hands.
+
+Held context decays: a file read hours ago is a description again, and one since deleted leaves a claim no one can check. Re-read the leaf fresh before acting — even when you "already know it". The larger the context, the stronger the illusion that you don't.
+
+`.ai-factory/ROADMAP.md` is the entry map of **time**: tasks are executed in file order, one at a time, top to bottom, and the `[x]`/`[ ]` seam is where that run stands — aim there. `[x]` lines are history; only the files verify the present. `.ai-factory/ARCHITECTURE.md` is the entry map of **space**: module boundaries, the chosen pattern, `## Features`. The two maps orient a cold session. Named roadmaps under `.ai-factory/roadmaps/` branch the time map — per-developer buffers with an `> Owner:` line; multiuser entry starts by enumerating that directory.
+
+## Documentation style
+
+- **Describe behavior, not code.** Docs explain what a feature does and how it works — not list methods, fields, event types, or endpoint tables. That's just copying the code.
+- **Comments never cite the plan layer.** No code or test comment carries a phase/note number, a `ROADMAP`/`Plan` reference, or an `.ai-factory/` path.
+- **No file/directory trees.** The only place a directory tree belongs is in ARCHITECTURE.md as a module template. Everywhere else — never.
+- **Match the language of existing docs.** Before writing or editing a doc file, check what language neighboring docs use and match it — even if project instructions say otherwise.
+- **No README documentation table.** The documentation index belongs in the project's CLAUDE.md, not in README.md.
+- **Present tense, not change history.** A doc states behavior in the present tense — a governing spec states *intended* behavior whether the code exists yet or not, a description states *existing* behavior. Neither narrates change history: no "X was replaced", "Y was added" — that belongs in commit messages.
+- **Docs form a walkable tree.** Inline links are the edges grounding walks: every doc links to the deeper docs and code it depends on, at the moment they are load-bearing.
+
+## Project CLAUDE.md authoring
+
+- **One home per fact.** The documentation index lives in CLAUDE.md (never in README); a module map lives in ARCHITECTURE.md or the code itself — CLAUDE.md points, it does not copy.
+- **Monorepo roots route by ownership.** Tasks go to the sub-repo they belong to — into its `.ai-factory/` (contract line in `ROADMAP.md`, task spec in `specs/`). Resolution: an explicit sub-repo prefix at the start of the argument wins (strip it, process the rest); otherwise detect from the task description; if ambiguous — ask. The root CLAUDE.md holds only the project-specific prefix/keyword tables — this protocol is not restated there.
+
+## Memory
+
+- **Never write to memory.** Do not save anything to `~/.claude/memory/` or any memory files unless the user explicitly asks to remember something.
+- **Allowed trigger phrases only.** Writing to memory is permitted only when the user uses one of these exact commands (in any language):
+  - EN: "remember this", "save this", "save to memory", "add to memory", "memorize this"
+  - RU: "запомни", "сохрани в память", "добавь в память", "запиши в память"
+- **Explanations of workflow, process, or context are NOT a trigger.** If the user explains how something works or describes a process, do not interpret it as a request to save to memory.
+
+## Git
+
+- **NEVER commit without explicit permission.** If there are uncommitted changes, assume they are intentional or ask what to do. Do not auto-commit.
+
+## Commit messages
+
+- **Short noun phrase or imperative**, no trailing period.
+- **Sentence case** — capitalize the first word and proper nouns only.
+- **No type prefixes.** Never use `feat:`, `fix:`, `chore:`, `refactor:` or any other conventional-commit prefix.
+- **No body** for single-concern commits. A body is acceptable when one commit covers multiple unrelated changes — use it to list them.
+
+## Skills
+
+A skill whose time has come is loaded into the current context at least once, and not loaded again. A load is the skill's full text read into this context, by the runtime's own loading facility, since the session's start or its last compact; a compact unloads every skill, so the excerpt of earlier skills it leaves behind is not a load. A needless reload costs context; a missed load fails silently.
+
+## Planning workflow
+
+- **Chat plans; the orchestrator implements.** In a chat session, only plan and write planning artifacts (roadmaps, task specs, docs) — don't touch application code unless the user directly and unambiguously asks for a specific change here. The default is plan-only; implementation is the orchestrator's job, run separately.
+- **Do not drift into coding.** Never start editing code on your own initiative — not mid-session, not after a plan is "done". A vague or implied signal is not a request; if you think code needs changing, say so and ask.
+- **Planning chain.** `/roadmap-outline` → `/roadmap-outline-deep` → `/roadmap-decompose` (plus `/roadmap-decompose-skeleton` on heavy tasks). Every task is two-tier: a contract line in `ROADMAP.md` plus a task spec in `.ai-factory/specs/` (older notes still resolve from `.ai-factory/notes/` via the contract line's `Spec:` tag).
+- **Deferred questions mean unfinished planning.** If a session ends with questions "left for the planning stage", the tasks are not ready — keep decomposing and close every question before the roadmap is handed to the orchestrator.
+- **Interface names declare their kind.** When a planning artifact — a contract line, a spec, a skeleton, a work-order, a plan — names a new abstraction, the name carries the language's own interface marker (`I` prefix, `Protocol` suffix, or whatever form the language's convention uses), so a reader tells a contract from a class by the name alone. Where the project's rules pin a specific form, that form is mandatory.

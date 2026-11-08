@@ -1,0 +1,97 @@
+---
+name: orchestrator-artifacts
+description: >-
+  Shared description of the orchestrator's on-disk artifact protocol — directory
+  layout, PASS signals, sidecar fields, the `## Deferred observations` section
+  format, and the status-marker grammar. Pure protocol reference, no procedure.
+  Use when reading or writing plans,
+  plan-reviews, reviews, or sidecars under `.ai-factory/`.
+user-invocable: false
+disable-model-invocation: false
+allowed-tools: Read
+---
+
+# Orchestrator Artifacts — the File Protocol
+
+This is an engine: its callers depend on its exact behavior — edits here
+must honor their expectations as part of its contract; the reverse graph resolves
+via `` grep -l "orchestrator-artifacts" src/skills/*/SKILL.md src/commands/*.md ``.
+
+## 1. Layout
+
+Artifacts live under the target repo's `.ai-factory/`: `plans/` (`<seq>-<slug>.md`
+plan + `<seq>-<slug>.json` sidecar), `plan-reviews/` (`<seq>-<slug>-plan-review-N.md`),
+`reviews/` (`<seq>-<slug>-review-N.md`). Test mode adds `test-runs/` (`<seq>-<slug>-test-N.txt`)
+and roots at `ROADMAP_TESTS.md`. This flat layout is for the default pair
+(`ROADMAP.md`/`ROADMAP_TESTS.md`); a named roadmap's artifacts live under a
+subdirectory keyed by its **segment** — the roadmap file's stem with a trailing
+`-tests` removed, so a named roadmap and its test sibling share the segment and its
+numbering axis: `roadmaps/john-doe.md` and `roadmaps/john-doe-tests.md` both key
+`plans/john-doe/…`, the same segment under `plan-reviews/`, `reviews/`,
+`test-runs/`. `<seq>` is assigned by the orchestrator at plan time and is not
+recoverable from a contract line; `N` is the round number — files in round order are
+the finding→fix history. Numbering is per-directory — each subdirectory carries its
+own `<seq>` axis, shared by the pair that keys it.
+
+## 2. Signals
+
+A review passes when its file ends with `PLAN_REVIEW_PASS` / `REVIEW_PASS`
+(`TEST_PASS` for test runs) on its own last line; no signal on the last round means
+the stage did not pass. `ESCALATION` is a third signal shape, opposite in meaning to
+the PASS signals — it stops the run rather than continuing it. Any of the four roles
+(planner, implementer, plan-reviewer, reviewer) writes it on the last line of the
+artifact it already owns: the plan file for the planner and the implementer, the
+plan-review or review file for the two reviewers.
+
+## 3. Sidecar fields
+
+`planner`, `implementer` (resumable session ids), `plan-reviewer-<N>` (one plan
+reviewer's session id per attempt, kept even when that reviewer wrote no review;
+`<N>` is the round number its `plan-review-<N>` file carries; for reading only, never
+resumed by the run), `step` (resume point — the closed set and its artifact
+requirements live in `task-rescue`, its only skill-side writer; the closed set now
+includes `escalated`), `elapsed` (seconds, cumulative), `escalation` (the escalation
+record: the role that raised it, the artifact path, and a one-line excerpt of the
+missing decision).
+
+## 5. `## Deferred observations` section
+
+Present in both review genres. Entry: `- Affects: <phase / task-spec path /
+"unknown"> — <observation>`. The section may be absent. Entries are non-findings —
+a review with only them still passes. The reviewer never writes or imitates status
+markers — the field after the observation text is reserved for downstream tools.
+
+## 6. Status-marker grammar
+
+Append-only space-separated bracketed suffix at the end of the entry line. Written by
+the **resolving builder** — the head disposing a landed phase's deferred observations
+under its current authority — at the moment it disposes of an observation:
+
+- `[fixed]` — the gap is actually fixed, by the repair the writer performed
+- `[routed → <path>]` — routed into an **open** task's spec, or onto a phase as
+  `[routed → <roadmap path> § Phase N]`, `<roadmap path>` being the roadmap file's
+  repo-root-relative path — `.ai-factory/ROADMAP.md`, or `.ai-factory/roadmaps/<user-slug>.md`
+  for a named roadmap; the target must resolve to an editable surface (the task spec of
+  an open task, or a phase still in the roadmap), never a completed or frozen one
+- `[dismissed]` — evaluated and found moot, stale, or already handled
+
+The reviewer never writes or imitates markers. Entry text and `Affects:` are never
+rewritten — markers only accumulate. **Pinned** = the entry line carries ≥1 marker.
+Dedup rule: whoever pins an entry pins every occurrence across that task's
+review files (dedup by `Affects:` target + gist).
+
+A phase is a route target too. Routing a distinct finding onto a phase adds one to
+that phase's touch count, a `**Touches:** N` line kept in the phase note, or in the
+phase's intro while the phase has no note; a count of one is not written, so the
+line first appears at two. The count is one per distinct finding, not per occurrence
+the dedup rule pins. It is a hint for sorting the roadmap and never a rule; a missed
+count costs nothing.
+
+**Legacy markers** `[promoted → <path>]`, `[audit-corroborated]`, `[audit-dismissed]`,
+`[unrouted-reported]` are retired from the active vocabulary; encountered in old
+repos they still count as pinned (lazy migration — history is never rewritten).
+
+## 7. Mirrors-the-orchestrator invariant
+
+This file mirrors the orchestrator's file protocol, and a change to that protocol on
+the orchestrator's side is a change here, made in lockstep.

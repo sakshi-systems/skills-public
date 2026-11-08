@@ -1,0 +1,126 @@
+---
+name: note
+description: >-
+  Generic distiller for research notes, task specs, and handoffs: extracts a
+  concise summary from the current conversation context and saves it as a
+  numbered file. Destination directory and section template are
+  caller-supplied, defaulting to today's research-note behavior when unset.
+  Use when finishing a research session, deep-dive, or exploration and you
+  want to persist the key findings for future reference. Keywords: note,
+  research, summary, findings, extract.
+argument-hint: "[topic-slug]"
+disable-model-invocation: false
+user-invocable: true
+allowed-tools: Read Write Bash(ls *) Bash(mkdir *) Glob
+---
+
+# Note — Research Summary Extraction
+
+Extracts key findings from the current conversation context and saves them as a numbered note file.
+
+This is an engine: its callers depend on its exact behavior — edits here must
+honor their expectations as part of its contract; the reverse graph resolves via
+`` grep -l "note" src/skills/*/SKILL.md src/commands/*.md ``.
+
+## Workflow
+
+### Hooks (caller inputs)
+
+Three optional inputs a caller may supply; all default to today's standalone behavior when unset:
+
+- **Destination directory** — target directory for the note. Unset → default `.ai-factory/notes/` exactly as now. When set, every directory-scoped step uses it: the `mkdir -p`, the numbering scan, and the final path. The numbering scan matches files whose name begins with a run of one or more digits followed by a hyphen and ends in `.md` — `` `^[0-9]+-.*\.md$` `` — and reads that leading run as an integer, comparing numerically rather than as a string, so `100-…` ranks above `99-…`. Numbering stays **per-directory** (scan the chosen directory only).
+- **Template** — a section skeleton for the note body, or a free-form (non-skeleton) body directive the caller passes verbatim. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's directive verbatim — a section skeleton or a free-form structure (grid or prose); `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.
+- **Verbosity directive** — free-text depth/length policy for the distillation. Unset → the current default (Important Rule 1, "Be concise", and Important Rule 2, "Focus on findings"). When set, the caller's directive **replaces both** the default concision rule (Rule 1) and the findings-focus/not-process rule (Rule 2) for this run; all other Important Rules — file paths, English — still apply.
+
+Below these three hooks sits one more, always-on layer: folder style (Step 3) reads the destination folder's most recent siblings to match its prevailing register. It never outranks a hook — precedence is hooks first (template/verbosity define structure and depth), folder style second (fills only what hooks leave unsaid), engine defaults last.
+
+### Step 1: Analyze Context
+
+Review the full conversation to identify:
+- What was researched or explored
+- Key discoveries, conclusions, or insights
+- Code patterns, architecture decisions, or constraints identified
+- Relevant file paths and their roles
+- Unresolved questions or areas needing further investigation
+
+### Step 2: Determine Slug
+
+Use `$1` if provided. Otherwise derive a short descriptive slug from the research topic (lowercase, hyphens).
+
+### Step 3: Save Note to File
+
+**Note file path:** `<destination>/<NN>-<slug>.md` where:
+- `<destination>` is the destination-directory hook from above, defaulting to `.ai-factory/notes/` when unset
+- `<slug>` is derived from the topic (lowercase, hyphens)
+- `<NN>` is a zero-padded four-digit sequence number (`0001`, `0002`, `0003` …); this width governs only what `note` writes — existing names of any width are still read
+
+To determine `<NN>`, find the highest existing prefix among files matching the numbering scan from the Destination directory hook (`` `^[0-9]+-.*\.md$` ``) in `<destination>`, parsed as an integer and compared numerically, and add 1. If no numbered files exist yet, start at `0001`. The result is written with exactly four zero-padded digits regardless of how small it is.
+
+Numbers run `0001` through `9999`. When the highest number the scan finds is `9999` or greater, `note` writes nothing — no `mkdir -p`, no file, no sibling reads — and instead reports that the numbering bound is reached, naming `<destination>`, rather than proposing `10000` or a number already taken.
+
+**Folder style:** before composing the body, reuse the same numbering scan defined in the Destination directory hook to read the 1–2 most recent (highest-numbered) sibling files in `<destination>` and learn the folder's prevailing register, prose-vs-list density, and heading/formatting habits. "Most recent (highest-numbered)" is decided over the parsed integer, not the string — the 1–2 siblings with the numerically highest prefixes, so a name with a longer prefix outranks any shorter-prefixed one (`100-…` ranks above `99-…`). Hold to that style **only where the caller's hooks are silent** — style is *matched*, never content-copied. Precedence, high to low: (1) caller hooks (template/verbosity) always win, (2) neighbor style fills only what hooks leave unsaid, (3) engine defaults last. Guards: empty `<destination>` (no numbered files) or a hook that already fully determines the body → skip silently, no ceremony; at most 2 sibling reads.
+
+**Before saving, ensure directory exists:**
+```bash
+mkdir -p <destination>
+```
+
+**Note file template:** when the template hook is unset, the note follows the default template block below, unchanged. When the template hook is set, the note body follows the caller's directive (section skeleton or free-form) verbatim instead. File paths and English always apply to both cases. Concision (Important Rule 1) and findings-focus (Important Rule 2) are the *default* verbosity directive; when the caller supplies a verbosity directive, it replaces both Rule 1 and Rule 2 for this run.
+
+Default template (unset case):
+
+```markdown
+# <Topic Title>
+
+**Date:** <YYYY-MM-DD>
+**Source:** conversation context
+
+## Key Findings
+
+<Bulleted list of the most important discoveries, conclusions, or insights.
+Each bullet should be self-contained and actionable.>
+
+## Details
+
+<Organized sections expanding on the findings above. Use subheadings to group
+related information. Include code patterns, architecture decisions, relevant
+file paths, API contracts, gotchas, and edge cases as appropriate.>
+
+## Open Questions
+
+<Unresolved questions or areas needing further investigation.
+Remove this section if there are none.>
+```
+
+### Step 4: Report
+
+```
+Note saved: <destination>/<NN>-<slug>.md
+
+Key findings:
+- <1-3 bullet summary>
+```
+
+(`<destination>` defaults to `.ai-factory/notes/` when the destination hook is unset.)
+
+When the numbering bound is reached (see Step 3), report this instead:
+
+```
+Numbering bound reached: <destination> already holds 9999 — nothing written.
+```
+
+---
+
+## Important Rules
+
+1. **Be concise** — capture the essence, not the full conversation. A note is a distilled reference, not a transcript.
+2. **Focus on findings** — what was learned, not the process of learning it.
+3. **Include file paths** — when the research identified specific files or code locations, include them so the note is actionable.
+4. **All content in English** — regardless of conversation language.
+5. **Duplicates are OK** — multiple notes on the same topic are expected. Research is iterative — notes capture the flow of thought and how understanding evolves over time. By default, always create a new file. Update an existing note only if the user explicitly asks to. The one exception is the numbering bound: a destination already at `9999` or above produces no file.
+
+## Note File Handling
+
+Notes live at `<destination>/<NN>-<slug>.md`, where `<destination>` defaults to `.ai-factory/notes/` when the destination hook is unset:
+- `<NN>` is the four-digit number determined by the per-directory numbering scan in Step 3 (bounded at `9999`)
+- `<slug>` derived from the topic or `$1` argument (lowercase, hyphens)

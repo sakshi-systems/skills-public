@@ -1,0 +1,114 @@
+---
+name: roadmap-decompose
+description: >-
+  Create or update a project roadmap with atomic, granular tasks. Each roadmap
+  entry is a ~600-char contract line naming the key files, types, and guards, with
+  the full detail persisted as a task spec. Use when user says
+  "decompose", "break down tasks", "spec tasks", "create tasks", or when adding
+  tasks that need to be implementation-ready.
+argument-hint: "[check | task description or requirements]"
+allowed-tools: Read Write Edit Glob Grep Bash(git *) AskUserQuestion Skill
+loads: roadmap-engine
+disable-model-invocation: false
+---
+
+# Decompose — Granular Task Planning
+
+Create and maintain a project roadmap where every task is a two-tier entry: a
+contract line in the roadmap and a full task spec, rendered per `roadmap-engine`'s
+format.
+
+Work under `roadmap-engine` and run its **Roadmap maintenance flow** with the hooks
+below.
+
+## Hooks for `roadmap-engine`'s flow
+
+### (a) Granularity
+
+Each entry is **one atomic task** — one file boundary, one concern, one reason to
+revert. Two-tier discipline applies: a contract line in the roadmap plus a full task
+spec per `roadmap-engine`'s format — never a full spec inline. Order entries by
+logical sequence (dependencies first).
+
+Numbering: tasks render as flat checkbox bullets directly under their parent
+`### Phase N` header, numbered `**N.M — Name**` (`N` from the header, `M` a 1-based
+ordinal continuing after the highest existing `M` in that phase). **Flat fallback:**
+when the target file/region has no phase headers, emit unnumbered bullets exactly as
+today — never invent a phase header to hang a number on (covers `ROADMAP_TESTS.md`,
+legacy flat roadmaps, and this repo's own ROADMAP.md).
+
+Before a phase's first entry is drafted, read that phase's intro; where the phase
+header or intro names `Governing spec:` documents or a `Phase note:`, read those
+files in full before drafting continues — unconditional, never suspicion-gated. The
+two pointers are not interchangeable: the governing spec states how the phase must
+become, the phase note what diverges now. Beside that read, at the same moment, read
+the phase headings and phase intros of the whole roadmap once, so that what other
+phases build bears on how this phase is cut; this read replaces nothing in the phase's
+own read. The contract lines of the phase's own tasks are read when the phase is worked
+and are not part of the roadmap-wide read. These reads run once per phase, at the moment that phase's first entry is
+drafted, in every mode — never once per entry, and never re-run for later entries of
+a phase already read. An intro can be present at: the create-mode draft cycle as
+re-run by the update menu's Rewrite action over an existing `$TARGET_FILE`, the Add
+action, and hook (d)'s "Decompose existing" for the target task's phase. Under the
+flat fallback (no phase headers) there is no intro to read and the roadmap-wide read
+reads nothing; where the intro names neither pointer, proceed as today. A named file
+that does not exist is reported to the user as a finding, never skipped silently.
+
+Two parity carry-overs the engine's create flow does not itself hold:
+- On first run, mark already-completed tasks as `[x]`.
+- Create-mode gather-input question (fills the engine's
+  `AskUserQuestion: <caller phrases this…>` placeholder): *"What tasks should I
+  decompose into the roadmap?"*
+
+### (b) Per-entry gate — the Atomicity Gate
+
+After drafting each entry's full spec, before writing its contract line — apply the
+gate:
+
+> "Can the first half be deployed without the second half and still make sense?"
+
+If **yes** → split into two entries, apply the gate to each half recursively until no
+half passes. If **no** → the entry is atomic.
+
+"Make sense" means: compiles, breaks nothing, and delivers independently observable
+value.
+
+### (c) Target-file routing
+
+Resolve `$TARGET_FILE` before the flow runs, per `roadmap-engine`'s named-roadmap
+resolution order:
+- An explicit filename argument (e.g. `ROADMAP_TESTS.md`) wins
+- "My roadmap" (per the engine's resolution — see its "Named roadmaps" section for
+  the slug/owner mechanics)
+- Default → `.ai-factory/ROADMAP.md`
+
+Test-context keywords (test, tests, spec, testing, тест, тесты) route to the **test
+sibling of the roadmap in play**, not a bare literal: default roadmap →
+`.ai-factory/ROADMAP_TESTS.md` (as today); a named roadmap → its sibling per the
+engine's "Test sibling" rule (`.ai-factory/roadmaps/<user-slug>-tests.md`).
+
+### (d) Extra update action — "Decompose existing"
+
+Register an added update-menu action: expand a vague task into a full task spec, as
+`roadmap-engine`'s "What a task spec holds" defines it.
+
+Task-spec-handling rule:
+- Existing `Spec:` tag → update the named task spec in place with `Write`; the tag stays
+  unchanged.
+- Legacy inline (no tag) → write a new task spec per `roadmap-engine`'s format and add the
+  `Spec:` tag.
+- If the task bundles 2+ independent concerns, offer a split (a split → two task specs
+  + two contract lines). When the target task is already numbered `N.M`, number the
+  split per the engine's sub-numbering rule — children `N.M.1 … N.M.k` in chain
+  order, with the original line renumbered to the last child `N.M.k`; an unnumbered
+  (flat) task's split stays unnumbered.
+- Never bulk-migrate untouched legacy tasks.
+
+## Critical Rules
+
+1. **Tasks are atomic and specific** — each is one concern, one reason to revert
+2. **Every task is two-tier** — a contract line in the roadmap plus a task spec,
+   rendered per `roadmap-engine`'s format; never write a full spec inline in the
+   roadmap
+3. **NO implementation** — this skill only plans; the orchestrator implements in a
+   separate run

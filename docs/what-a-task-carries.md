@@ -1,0 +1,122 @@
+# what-a-task-carries — what must be true, not how to confirm it
+
+## The division of labour
+
+The planning chain decides what must become true; the orchestrator decides how, does
+it, and verifies that it did. Inside the orchestrator three roles read three different
+things: a planner explores the code fresh and turns a task into a plan; an implementer
+works from that plan alone, never the task spec itself; a reviewer judges the finished
+change against the task's own spec, never against the plan. A task spec is therefore
+written for two readers, not three — the planner, who mines it for what to plan, and
+the reviewer, who holds it as the standard to judge by. Whatever a spec says reaches
+the implementer only if the planner chose to carry it into the plan.
+
+## The plan reviewer, a head of its own
+
+At the plan's stage the reviewer is a fresh session that holds nothing: each round starts
+without memory of the rounds before it or knowledge of the planner, and the reviewer wrote
+neither the spec nor the plan it reads. Its instruction is short: read the plan and the
+code the plan targets, and look for wrong assumptions about that code. The planner and the
+code reviewer are one session, which holds the reviewer's instructions while it plans.
+That makes the plan reviewer the one reader in the orchestrator run that sets the plan against
+what the code actually is, written by neither of the two it checks — the two independent
+readings of [paired-loop](paired-loop.md) § "Where the split falls", built into the
+orchestrator run mechanically instead of kept by discipline.
+
+What makes it strong is not its prompt. Nothing in the prompt has been tuned for it;
+above its short instruction sits only the grounding of the global instructions — walk
+the named references to the leaf, and let the code win over any description of it
+([always-loaded-discipline](always-loaded-discipline.md)). That is why it catches what a
+spec gets wrong: it does not take the spec's word, it goes to the code.
+
+## What a spec holds
+
+What a spec holds follows from who reads it: what is true now, read from the code as
+every open task above it leaves it, with exact values — the code's own values, a
+literal, a symbol, a type, a path — so the planner does not re-derive it; what must be
+true after, in the code's own terms — which file, which text, which value; and what
+breaks on contact. Three parts, and none of them is a check. The reviewer already holds
+the spec and already does the checking; a spec that also says how to verify hands the
+implementer a job that was never the implementer's, and a planner turns each such
+passage into a task in the plan — checking work, written twice, carried out by the wrong
+reader the first time. A measurement of the tree is not held either: a count is false
+before the task is reached ([counts-go-stale](counts-go-stale.md)).
+
+## Scope, stated positively
+
+Scope is stated positively. A spec says what the task changes; it does not fence off
+the neighbours one by one. A prohibition is the spec anticipating a finding instead of
+stating a requirement — and the reviewer, holding the same spec, already catches
+whatever exceeds the stated scope without being told in advance where not to look.
+Name what changes; the rest follows from what was never named.
+
+## Blast radius: the rule, not the snapshot
+
+A change's blast radius still belongs in the spec, and the distinction that keeps it
+legitimate is where the knowledge came from. The planner explores integration points
+itself, freshly, against the code as it stands at plan time — that is its own step,
+and it runs whether the spec speaks of it or not. What the spec records is the rule
+that defines the affected set: knowledge that came from reading the code once,
+closely, which the planner cannot re-derive from the code alone. What it never records
+is a snapshot of what a search returned at spec-writing time — that is the planner's
+own work, done early and by the wrong reader, and it is false by the time the task
+runs, because the code the search read is not the code the plan runs against.
+
+## What the absence cost, measured
+
+A task once asked for one clause, appended to each of two sentences in one file, both
+pinned word for word. Its spec's invariant did not state a property of the resulting
+text; it predicted the output of a line-based search over a paragraph that same task
+re-wraps — a count true when written and false by the time its own edit ran. The plan
+built from it carried twice as many steps checking the change as making it, and three
+rounds of planning failed with every finding inside the checking half and none against
+the change itself. A pattern searched for a word the edit never produced. A wrap width
+was taken from a previous round's own prose instead of read fresh from the file. A
+numbered line the plan expected to still match had already been moved by the plan's
+own first edit, before the check that named it could run.
+
+## The boundary: light on how, not on what must be true
+
+None of this makes a spec lighter about what must be true. A decision the run would
+otherwise have to invent — an exact value, an exact wording, a choice between two ways
+a change could go — stays in the spec, pinned, because the alternative is the run
+guessing it under budget instead of the spec settling it with the code open. That is
+the one thing a spec may never leave open, and it is a different thing entirely from
+the checking apparatus this document removes: pinning a decision states what must be
+true, where removing a check removes an instruction for confirming that it became so.
+Removing the fences does not remove the decisions inside them.
+
+## Where the planner decides on its own
+
+The orchestrator's planner holds the task and what the task names, never the conversation that
+produced it. Where the task is silent, the planner decides, and the result goes somewhere no one
+chose. Such places cannot be found by searching the code: there are endlessly many of them. They are
+found in the gap between the conversation and the spec — a decision taken while planning, by the
+heads and the user, that never reached the spec. A question left "for later", or a "contact for the
+decomposition", marks such a place in advance, which is why a deferred question means unfinished
+planning (the global instructions, [Planning workflow](../src/global/CLAUDE.md#planning-workflow)).
+The repair is to carry the decision into the spec as what must be true after, not as a question —
+the boundary above, met from the other side.
+
+The other side is a question the task never names. A task says what is true now, what must be true
+after and what breaks on contact; it seldom says what question to bring to the change. Where it names
+none, the planner brings its own, and that is the unpredictable vector of attention met again and
+again in a run: the "question asked of it" half of
+[attention at the moment of decision](philosophy/attention-at-the-moment-of-decision.md#attention-has-two-parts).
+
+## A task has a source
+
+A task answers to something: a document's promise, the user's ruling, or the path to a goal the user set. The user's word and his goal are sources as much as a document is. A find that has none of these is real and still not a task. It goes to the user, who decides whether it becomes a promise, a ruling, or nothing. A missing delivery state found while working on something else is a true find; turning it straight into a task is how a wrong task was once written.
+
+A repair has a source too, a reviewer's observation. Where a goal is set, a repair belongs above the roadmap's stop only when it lies on the goal's path or is a silent failure on a path the goal uses.
+
+A field that only looks answered is worse than none, because it silences the question. A template constant that names a source records nothing, while an absent field at least prompts someone to ask.
+
+## The check
+
+Ask of any passage in a spec: does it tell the reader what must be true, or does it
+tell someone what to do to confirm that it is? The first belongs in the spec, however
+it is phrased. The second is the review, and the review already has an owner — an
+implementer handed one is doing the reviewer's job with none of the reviewer's
+authority, and a planner who copies it into a task has spent a plan step on work that
+produces no code.
