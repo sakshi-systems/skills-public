@@ -26,7 +26,7 @@ For each surface, detect its current state (`readlink`/`test`) and act:
     - `CLAUDE.md` is a single file → leave theirs a real file and append an import line `@<abs>/active/CLAUDE.md` to its tail (both sets of instructions load);
     - `skills/` `commands/` `agents/` are directories of independent items → leave theirs a real directory and link our items into it one by one (`ln -sfn <abs>/active/<kind>/<item> ~/.claude/<kind>/<item>`), asking on any name collision.
 
-Two further surfaces are not symlinks, and each is a `SessionStart` hook in `~/.claude/settings.json`. The first, the slug hook, has a command that prints `The user's slug: ` followed by the output of `~/.claude/skills/roadmap-engine/scripts/user-slug.sh`, so that each session starts holding the user's slug, and prints nothing, exiting zero, when the script yields no slug. Walk the user through it like the others. Read their `settings.json` first. If a `SessionStart` entry already runs that script, skip it. If the file is absent, or holds other settings, show the entry below merged into what they keep, preserving every existing key and any other `SessionStart` entries, and write it only on their word. If they decline, skip the surface.
+Three further surfaces live in `~/.claude/settings.json` and are not symlinks: two `SessionStart` hooks and one key. The first, the slug hook, has a command that prints `The user's slug: ` followed by the output of `~/.claude/skills/roadmap-engine/scripts/user-slug.sh`, so that each session starts holding the user's slug, and prints nothing, exiting zero, when the script yields no slug. Walk the user through it like the others. Read their `settings.json` first. If a `SessionStart` entry already runs that script, skip it. If the file is absent, or holds other settings, show the entry below merged into what they keep, preserving every existing key and any other `SessionStart` entries, and write it only on their word. If they decline, skip the surface.
 
 ```json
 {
@@ -65,11 +65,19 @@ The second, the compact hook, fires on the `SessionStart` that follows a compact
 }
 ```
 
+The third, the key, is `"idleCompaction": false`. A client that runs Claude Code through the Agent SDK, such as Zed's ACP adapter `claude-agent-acp`, compacts an idle session on its own: when a session with a large context has been quiet for close to the prompt cache's hour, it sends `/compact` into it as an ordinary prompt. That compact arrives with no snapshot written before it, and a compact is meant to be preceded by one. The key turns off only that idle compaction; the auto-compact at the window's edge stays. `autoCompactEnabled: false` and `DISABLE_AUTO_COMPACT` would turn off both, so they are not the switch. Walk the user through it the same way. Read their `settings.json` first. If the key is already `false`, skip it. Otherwise show the key below merged into what they keep, preserving every existing key, and write it only on their word. If they decline, skip the surface.
+
+```json
+{
+  "idleCompaction": false
+}
+```
+
 The whole flow is idempotent (a second run is all-skips) and reversible (our links resolve back into this repo; a replaced original sits beside its symlink as `*.pre-sakshi.bak`).
 
 `active/` is the curated working set: `active/skills/`, `active/commands/`, and `active/agents/` hold per-item symlinks into `src/`, so only skills actually in use are loaded, not every skill that exists.
 
-The architect’s [runtime mechanics](docs/architect-runtimes.md) require both curated runtime-skill links and entries visible in the actual harness’s skill scope. With per-item directories, expose each selected runtime skill individually in `~/.claude/skills/` or `~/.codex/skills/`, preserving the same user-choice and collision handling above. Inspect the resolved entry rather than assuming that adding an `active/skills/` link updated an existing personal directory. When native skill loading is unavailable, callers read the runtime sibling from their canonical installed source. This does not require replacing native user settings.
+The architect’s [runtime mechanics](docs/architect-runtimes.md) require both curated runtime-skill links, the role-skill links `architect-role-builder`, `architect-role-razor` and `architect-role-navigator`, and entries visible in the actual harness’s skill scope. With per-item directories, expose each selected runtime skill and the role skills individually in `~/.claude/skills/` or `~/.codex/skills/`, preserving the same user-choice and collision handling above. Inspect the resolved entry rather than assuming that adding an `active/skills/` link updated an existing personal directory. When native skill loading is unavailable, callers read the runtime sibling from their canonical installed source. This does not require replacing native user settings.
 
 ## Project-specific skills
 

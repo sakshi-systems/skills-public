@@ -3,9 +3,9 @@ name: architect-runtime-claude
 description: >-
   Claude Code native mechanics for the architect↔editor paired loop: how a head
   reads its own session id and name, the locator it writes, how skills and
-  resources load, how the persistent editor hand is created and messaged, and how
+  resources load, how the persistent hand is created and messaged, and how
   a Claude head is reached by a peer.
-argument-hint: "[none — loaded by agent-architect or editor]"
+argument-hint: "[none — loaded by agent-architect or a hand]"
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read Bash Agent SendMessage ListAgents Skill AskUserQuestion
@@ -13,11 +13,11 @@ allowed-tools: Read Bash Agent SendMessage ListAgents Skill AskUserQuestion
 
 # Architect Runtime — Claude Code
 
-Load this skill after `architect-editor-engine` is resident, when your known harness is Claude Code — the common architect (`src/skills/agent-architect`) and the editor (`src/agents/editor.md`) are its callers, and the engine's § "Resolving installed resources" is the rule that loads it. This is an engine; its callers depend on its exact behavior, and the reverse graph resolves via `` grep -l "architect-runtime-claude" src/skills/*/SKILL.md src/commands/*.md src/agents/*.md ``. A caller in another harness never loads it.
+Load this skill after `architect-editor-engine` is resident, when your known harness is Claude Code — the common architect (`src/skills/agent-architect`) and a hand's definition (`src/agents/<name>.md` — the editor or the explorer) are its callers, and the engine's § "Resolving installed resources" is the rule that loads it. This is an engine; its callers depend on its exact behavior, and the reverse graph resolves via `` grep -l "architect-runtime-claude" src/skills/*/SKILL.md src/commands/*.md src/agents/*.md ``. A caller in another harness never loads it.
 
 ## Own identity
 
-You read your own session id and session name; the read is the head's own, and an editor's id never substitutes for it.
+You read your own session id and session name; the read is the head's own, and a hand's id never substitutes for it.
 
 **Session id.** Two commands. The first prints a fresh random nonce and returns — its output reaches the transcript only when the command returns. The next searches the project's transcripts — the `.jsonl` files directly under `~/.claude/projects/<project-key>/`, `<project-key>` being the working directory's path with every character that is not a letter or a digit replaced by a hyphen — for the printed nonce. Exactly one file matches, and its name without `.jsonl` is the session id. Any other count is no unique result.
 
@@ -35,15 +35,15 @@ Serialize the complete fresh object with a JSON serializer, such as Python's `js
 
 ## Loading skills and resources
 
-The native `Skill` tool loads a skill by name; an agent definition is raised through `Agent`. A skill the native manifest does not list is read from its canonical file, resolved as `architect-editor-engine` § "Resolving installed resources" states — never from an assumed `~/.claude` path. The question facility for a genuinely marginal fork is `AskUserQuestion`.
+The native `Skill` tool loads a skill by name; an agent definition is raised through `Agent`. A skill the native manifest does not list, or that the `Skill` tool refuses, falls back as `architect-editor-engine` § "Resolving installed resources" states, including its exception for `disable-model-invocation` — never from an assumed `~/.claude` path. The question facility for a genuinely marginal fork is `AskUserQuestion`.
 
 ## The persistent hand
 
-**First creation.** Raise the editor with `Agent`, `subagent_type: editor`, and the first channel-message as the prompt, its format token literally opening it. After the channel-message, as spawn metadata outside the payload, come the buffer's path and the editor's canonical definition path — both supplied by the common caller, both pointers only. Record the returned handle in the buffer. Where the running build exposes `Agent`'s `name:` parameter, pass it too, as an addressing convenience layered on the recorded handle, never the carrier and never a required step: the parameter is absent from some builds and nothing contracts the name's behavior beyond the run.
+**First creation.** Raise the hand with `Agent`, with `subagent_type` set to the hand's definition name — derived from the canonical definition path `agents/<name>.md` the common caller gives, the file stem without `.md`, which the caller does not pass as a separate thing — or `editor` where the caller gives none, and the first channel-message as the prompt, its format token literally opening it. After the channel-message, as spawn metadata outside the payload, come the buffer's path and that hand's canonical definition path — both supplied by the common caller, both pointers only. Record the returned handle in the buffer. Where the running build exposes `Agent`'s `name:` parameter, pass it too, as an addressing convenience layered on the recorded handle, never the carrier and never a required step: the parameter is absent from some builds and nothing contracts the name's behavior beyond the run.
 
 **Every later round** goes to the same handle via `SendMessage`.
 
-**Liveness.** The next `SendMessage` is itself the probe, and its outcome is the signal. `ListAgents` is never that signal: its subagent rows come from the live task registry of what is actively running right now, a completed round drops out of it on the order of a minute, and a compact never touches the editor at all — it only erases the address from your own context — so absence from that listing is never evidence of death. Recover no handle from a listing, for the same reason.
+**Liveness.** The next `SendMessage` is itself the probe, and its outcome is the signal. `ListAgents` is never that signal: its subagent rows come from the live task registry of what is actively running right now, a completed round drops out of it on the order of a minute, and a compact never touches the hand at all — it only erases the address from your own context — so absence from that listing is never evidence of death. Recover no handle from a listing, for the same reason.
 
 A failed send is a dead hand. The replacement is a fresh `Agent` creation as above; when and why to replace stays with the common caller.
 

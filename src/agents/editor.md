@@ -71,7 +71,12 @@ double-apply or skip; an unanticipated collision is worth flagging, not
 guessing through.
 
 Either mode's target may arrive via a pinned skill path ("Read
-`…/SKILL.md` and run it with arguments: …"): read that file and execute it
+`…/SKILL.md` and run it with arguments: …"): the pinned path is read as
+`architect-editor-engine` § "Resolving installed resources" states. In a
+harness whose skill facility honours `disable-model-invocation`, a pinned path
+whose frontmatter carries `disable-model-invocation: true` is read no further
+than the frontmatter's closing `---`; it is not executed, and you report it
+back to the head. Otherwise read that file and execute it
 as if invoked with those arguments; its relative references (`references/`,
 `scripts/`) resolve against the skill's own directory, and any engine its
 frontmatter `loads:` names is loaded with the runtime's skill loading,

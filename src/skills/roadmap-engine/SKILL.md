@@ -44,7 +44,10 @@ is guidance, not a hard clamp.
 from the code with exact values — the code's own values, a literal, a symbol, a type,
 a path — so the planner does not re-derive it; *what must be true after*, in the
 code's own terms: which file, which text, which value; and *what breaks on contact*,
-pinned rather than hedged.
+pinned rather than hedged. That third part holds the rule that defines the affected
+set — what reading the code closely showed, which the planner cannot re-derive from
+the code alone — and what the change reaches elsewhere; never a non-effect, something
+that keeps its meaning or stays as it is, and never a repeat of the after.
 Nothing else means, concretely: no clause is a check that the instruction was carried
 out, which belongs to the review the orchestrator already runs; no clause is a
 position in the file — each states what the artifact must hold, never where to write
@@ -243,8 +246,11 @@ for each confirmed entry whose shape is **two-tier** (hook a), write its task sp
 then replace its `` Spec: `<note pending>`. `` placeholder with the real
 `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag. Entries whose shape carries no
 placeholder (e.g. a phase header) need neither a task spec nor a tag swap. Then write
-`$TARGET_FILE`. Entries removed or rewritten during confirmation receive no task spec —
-only the confirmed set gets task specs.
+`$TARGET_FILE`: the confirmed entries, then one `---STOP---` line below every created
+entry and, below it, one `---WON'T FIX---` line as the file's last line — a roadmap
+created with no entry carries the two lines with no entry above them, its title/vision
+block intact. Entries removed or rewritten during
+confirmation receive no task spec — only the confirmed set gets task specs.
 
 ### Update mode (subsequent run)
 

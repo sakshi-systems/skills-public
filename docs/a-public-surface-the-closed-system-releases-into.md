@@ -39,9 +39,16 @@ The license is MIT.
 
 A public repository is not a mirror of the closed one and does not share its commits. The first
 release of each is a snapshot of its product; every later release is the difference since the
-previous one, applied as one commit carrying the release's version. A release is cut on the user's
-word. The closed history never leaves: the public repository shows what each version holds, never
-how it came to hold it.
+previous one. A release is one commit carrying the release's version, and it enters the public
+repository as a pull request from a `release/vX.Y.Z` branch into `main`. A release comes at the end
+of a [sprint](sakshi-harness/skill-cycle.md#спринт), not at every merge: the roadmap marks it
+ahead with a `---RELEASE---` marker, whose place
+[the roadmap's markers](philosophy/context-tree.md#две-карты-входа--время-и-пространство) state. The
+pull requests of the closed repository merge into its `dev` branch, and the head cuts the release
+from that merged `dev` once the pull requests the marker collects are in it, the release point. At
+the same moment the release enters the public repository, the closed repository's `dev` goes into
+its main branch. The closed history never leaves: the public repository shows what each version holds, never how it
+came to hold it.
 
 ## Each release is swept
 
@@ -57,8 +64,10 @@ is the whole product against nothing. Three steps run on it, in order. A search 
 covers what is always private and needs no list to keep: absolute home paths, email addresses and
 host addresses; a hit stops the release, naming the file and the line. An agent then reads the
 difference for what needs judgment, another team's project or a person named in the product. Then
-comes the user's word to release. While releases are cut by hand the search needs no dedicated
-script.
+comes the user's word, given on the public pull request after an external reviewer installed on the
+public repositories has reviewed the difference: the head reads that review and brings it to the
+user, and the user's merge is the release. The external reviewer reads the difference without the
+task's intent, as an audit. While releases are cut by hand the search needs no dedicated script.
 
 ## Why the line runs here
 
