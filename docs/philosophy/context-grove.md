@@ -16,6 +16,6 @@ Git над артефактами идёт там, где они лежат: `gi
 
 Команда проекта — головы, чьи локаторы лежат в `.ai-factory/architects/<slug>/`: её память хранится в репозитории, куда ведёт симлинк, а чтение через симлинк приписывает команду открытому проекту. Правило поиска команды — в [Architect runtimes](../architect-runtimes.md#finding-a-projects-team).
 
-Состояние задачи читается из её собственных артефактов, а не из git: [`orchestrator/docs/features/resume.md`](../../../orchestrator/docs/features/resume.md).
+Состояние задачи читается из её собственных артефактов, а не из git: [`orchestrator/docs/features/resume.md`](https://github.com/sakshi-systems/orchestrator-public/blob/main/docs/features/resume.md).
 
 Хэш в `## Features` принадлежит тому месту, где живёт роадмап. Он датирует закрытие и не несёт кода.

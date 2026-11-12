@@ -15,6 +15,12 @@ The standing entries of this buffer — the bold-led entries under
 text at every start that finds this folder. The headings below are filled
 over the session, not left as placeholder prose.
 
+## Architect personality
+
+Role: <builder, razor or navigator — the user fills it>
+
+<The question the user assigns this head, written as a question.>
+
 ## Team
 
 <Where this head sits in a team, by its own links and not the whole
@@ -83,6 +89,11 @@ it, in a line or three.
 floor is at 500k: the hand is not replaced before it. The soft mark is at
 800k: aim to have replaced the hand by then, and do not treat it as a line
 to police. Between the two, replace it at a break in the work.
+
+**Standing entry — the pair reads a judgment target.** A judgment target is
+a question of judgment put to the head, as distinct from a factual one. The
+head reads it itself to the end of the chain of its own question. Whether
+the target raises a hand is the head's judgment.
 
 ## Orientation
 

@@ -106,10 +106,17 @@ Home — [multiuser-roadmaps](philosophy/multiuser-roadmaps.md), `roadmap-engine
 
 ## Paired loop
 
-Home — `agent-architect`, `editor` (`src/agents/editor.md`).
+Home — `agent-architect`, `editor` (`src/agents/editor.md`), `explorer` (`src/agents/explorer.md`).
 
-- **architect** — the plan-and-review persona: reasons, decides, drafts work-orders; never touches shared artifacts itself.
-- **editor** — the persistent subagent the architect spawns on first contact and keeps for the session; applies every change and reports back by fact.
+- **architect** — the plan-and-review persona: reasons, decides, drafts work-orders, checks what landed.
+- **editor** — the persistent subagent the architect spawns on first contact and keeps for the session; applies the edits ordered to it, reads independently, and reports back by fact.
+- **explorer** — the persistent subagent a head that writes nothing (the razor, the navigator) keeps as its hand; reads wide, reports facts with their anchors, gives no verdict, and writes only its own snapshot.
+
+## Looking back
+
+Home — [retrospective](philosophy/retrospective.md).
+
+- **retrospective** — the system's looking back at its own record from a height above one step, for the structure the project is turning into and how it changed; not yet fully defined.
 
 ## Where the registry itself is normed
 
