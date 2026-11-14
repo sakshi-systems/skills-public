@@ -91,9 +91,9 @@ commits or amends there.
 
 After a terminal outcome, the head assesses the actual result and performs
 the applicable "Phase closure" or authorized repair. It commits the
-resulting preparation/closure work before another launch. Quality reviews and rescue
-authority remain as `agent-architect`'s "The user rules the forks and owns the commits" has
-them.
+resulting preparation/closure work before another launch. Quality reviews
+remain as `agent-architect`'s "The user rules the forks and owns the commits"
+has them.
 
 Where the user asked to hear only the final result, the head honours that
 preference; real decision forks, a rescue and a participant's capacity
@@ -129,7 +129,8 @@ existing policy, and a remark that blocks the merge is repaired before the
 merge, any repair staying within authority as that same section reads it.
 The remarks of any other review of the phase, an external one on a pull
 request or a razor's, the builder disposes of as it does the deferred
-observations.
+observations; the disposition is answered in the pull request's thread, and a
+remark routed onto a phase is recorded in that phase's note.
 
 Every disposition edit — a marker on a review file, a routing into a task
 spec or onto a phase, a newly outlined phase, a performed repair — is the
