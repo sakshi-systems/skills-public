@@ -45,9 +45,10 @@ of a [sprint](sakshi-harness/skill-cycle.md#спринт), not at every merge: t
 ahead with a `---RELEASE---` marker, whose place
 [the roadmap's markers](philosophy/context-tree.md#две-карты-входа--время-и-пространство) state. The
 pull requests of the closed repository merge into its `dev` branch, and the head cuts the release
-from that merged `dev` once the pull requests the marker collects are in it, the release point. At
-the same moment the release enters the public repository, the closed repository's `dev` goes into
-its main branch. The closed history never leaves: the public repository shows what each version holds, never how it
+from `dev` at the release point, the commit where the last pull request the marker collects merged;
+a pull request merged after that point is not in the release and waits for the release whose marker
+stands below it in the roadmap. At the same moment the release enters the public repository, the
+closed repository's `dev` goes into its main branch, up to the release point. The closed history never leaves: the public repository shows what each version holds, never how it
 came to hold it.
 
 ## Each release is swept

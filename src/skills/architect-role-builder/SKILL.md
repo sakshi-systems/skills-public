@@ -125,8 +125,11 @@ only a repair actually performed. The pins on every occurrence across the
 task's reviews, the deduplication and the touch counts follow the loaded
 grammar. A one-off observation is parked when it does not block the goal
 and is not met again; a repeated or blocking one is considered under the
-existing policy, and any repair stays within authority as that same section
-reads it.
+existing policy, and a remark that blocks the merge is repaired before the
+merge, any repair staying within authority as that same section reads it.
+The remarks of any other review of the phase, an external one on a pull
+request or a razor's, the builder disposes of as it does the deferred
+observations.
 
 Every disposition edit — a marker on a review file, a routing into a task
 spec or onto a phase, a newly outlined phase, a performed repair — is the
