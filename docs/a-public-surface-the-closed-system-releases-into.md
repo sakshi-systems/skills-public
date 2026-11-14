@@ -44,10 +44,11 @@ repository as a pull request from a `release/vX.Y.Z` branch into `main`. A relea
 of a [sprint](sakshi-harness/skill-cycle.md#спринт), not at every merge: the roadmap marks it
 ahead with a `---RELEASE---` marker, whose place
 [the roadmap's markers](philosophy/context-tree.md#две-карты-входа--время-и-пространство) state. The
-pull requests of the closed repository merge into its `dev` branch, and the head cuts the release
-from `dev` at the release point, the commit where the last pull request the marker collects merged;
-a pull request merged after that point is not in the release and waits for the release whose marker
-stands below it in the roadmap. At the same moment the release enters the public repository, the
+pull requests of the closed repository merge into its `dev` branch in roadmap order, and the head
+cuts the release from `dev` at the release point, the commit where the last pull request the marker
+collects merged; a pull request merged after that point is not in the release and waits for the
+release whose marker stands below it in the roadmap. At the same moment the release enters the
+public repository, the
 closed repository's `dev` goes into its main branch, up to the release point. The closed history never leaves: the public repository shows what each version holds, never how it
 came to hold it.
 

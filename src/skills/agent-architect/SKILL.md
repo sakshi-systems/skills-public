@@ -302,12 +302,9 @@ authority genuinely ambiguous, bring that concrete authority fork to the
 user.
 
 **What coverage never releases.** Project gates and quality reviews stay in
-effect. Broad routine delegation does not release the repair wait that
-rescue keeps separately: only specific repair authority that actually
-covers it does, and `task-rescue` keeps its own procedure. Attention
-preferences, such as asking to hear only the final result, are separate
-from decision authority. Whether a peer's message counts as permission is
-decided under "His word between heads", above.
+effect. Attention preferences, such as asking to hear only the final result,
+are separate from decision authority. Whether a peer's message counts as
+permission is decided under "His word between heads", above.
 
 ## Working with another architect
 

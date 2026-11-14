@@ -1,13 +1,12 @@
 ---
 name: task-rescue
 description: >-
-  Reads failed orchestrator artifacts (plans, plan-reviews, code reviews) and writes
-  its report with the intended repair and rollback. It waits for the user's word, then
-  repairs to the depth of the root cause and rolls the task's state back so the
-  orchestrator re-validates from there. Also checks open tasks below for the same gap.
-  Use when an orchestrator run stops with "PLAN_REVIEW_PASS never achieved" or
-  "REVIEW_PASS never achieved" — trigger phrases: "rescue", "milestone failed",
-  "orchestrator run stopped".
+  Repairs a task that did not land as its spec meant (a stopped orchestrator run, or a
+  review finding that shows the task or its phase itself wrong; a finding in the code
+  alone is a fix round) to the depth of the root cause: reads the artifacts the run
+  left, writes its report with the intended repair and rollback, applies them so the
+  orchestrator re-validates from there, and checks open tasks below for the same gap.
+  Trigger phrases: "rescue", "milestone failed", "orchestrator run stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) Bash(rm *) Bash(mkdir *) AskUserQuestion Skill
 loads: orchestrator-artifacts roadmap-engine note
@@ -21,10 +20,13 @@ budget is spent — is the tripwire: how the failure was noticed, not what faile
 subject of this skill is what the stopped task needs, read from the artifacts it left
 on disk. It fixes neither the root's kind nor its place: the rescue answers
 a few questions about the stalled task, writes its report with the repair and rollback
-it intends, and waits for the user's word. The repair then reaches as deep as the root
-cause, steered by that word, and the sidecar and the artifact set roll back to the
-matching repaired state so the orchestrator re-validates from there rather than
-starting blind.
+it intends. The repair then reaches as deep as the root cause, and the sidecar and the
+artifact set roll back to the matching repaired state so the orchestrator re-validates
+from there rather than starting blind. A finding in the code alone goes straight to a fix
+round; one that shows the task or its phase wrong is rescued first (report, repaired
+spec), and for an implementer fed tasks by message, with no sidecar, the rescue's
+rollback is the fix round itself, a new line `N.Ma` under the task, carrying the fix,
+on the same branch.
 
 The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
 pair (alongside the task spec the task's `Spec:` tag names) and is edited when the
@@ -69,8 +71,13 @@ is not `[x]` is a stalled task. A group at `done`, or whose line is `[x]`, is a 
 task and not a candidate — this also covers a task finished before the orchestrator
 recorded `done`, which sits at `implemented:N` with an `[x]` line.
 
-If no group is stalled, stop and tell the user: there is nothing to rescue. If several
-are, ask the user which task to rescue before proceeding.
+Where the occasion is a review finding and not a stopped run, the task is the one the
+finding names, found by its contract line and task spec and not by an artifact group,
+`$TARGET_FILE` is the roadmap holding that contract line, and the repair of a landed
+task is its fix round `N.Ma`; the stalled-task test, the stop below and Step 5's
+rollback levels apply to a rescue whose occasion is a stopped run. If no group is
+stalled, stop and tell the user: there is nothing to rescue. If several are, ask the
+user which task to rescue before proceeding.
 
 **Resolve `$TARGET_FILE` and locate the task.** `$TARGET_FILE` is the stalled group's
 roadmap, and the task is its contract line, both found above.
@@ -170,8 +177,8 @@ No tables, no fragment-style bullet lists inside the diagnosis — the causal st
 read top to bottom, not reconstructed from a grid.
 
 **The intended repair.** The rescue decides the repair and the rollback state it
-intends. If the stop escalated, the report tells it as a decision for the user, with its
-options.
+intends. If the stop escalated, the report names the decision and its options, and the
+repair takes one of them into the task spec, where the resumed run reads it.
 
 **First write of the report.** Step 3 makes the first write of the durable report. The
 write is made per § "Step 5.7 — Write the durable report", through `note`, with the
@@ -179,17 +186,18 @@ destination, the three hooks and the topic slug that section gives. Keep the pat
 returns: every later section of the durable report is appended to that file. This first
 write holds the diagnosis and the intended repair and rollback.
 
-**The stop.** The rescue then stops. In the conversation it says where the report lies
-and that it waits for the user's word. The diagnosis lives in the report, not in the
-chat.
+**The stop.** When the first write returned a path, the rescue goes on to Step 5 and
+says in the conversation where the report lies; when it returned none, the rescue stops
+here with the task's artifacts kept, as "When the write cannot happen" has it. The
+diagnosis lives in the report, not in the chat.
 
 ---
 
 ## Step 5 — Apply repair and roll back artifacts
 
-On the user's word, Step 5 applies the repair the report intends and rolls the task
-back to the state it names, as that word steers them. Applying a clause to an open task
-the report names under question five is part of what the word releases.
+Step 5 applies the repair the report intends and rolls the task back to the state it
+names. Applying a clause to an open task the report names under question five is
+part of the repair.
 
 **Deleting files.** The stalled task's files are those Step 1 grouped under its
 `<seq>-<slug>`, in its segment. Each is deleted by its path with `rm -f -- <path>`.
@@ -221,8 +229,8 @@ two-space indentation.
 
 ### Valid sidecar `step` states
 
-This is a **closed set** — the table below holds the sidecar `step` values Step 5 may
-write; it picks one of them and never invents another.
+This table is the **closed set** of sidecar `step` values the orchestrator validates when it
+resumes; Step 5 writes one of the rollback levels above and never another value from it.
 The artifact paths here and in the test-mode line below are the default pair's flat
 layout; for a named roadmap they gain its `<segment>/` segment, per `orchestrator-artifacts`
 § 1, the way Step 1 locates the sidecar.
@@ -246,7 +254,7 @@ layout; for a named roadmap they gain its `<segment>/` segment, per `orchestrato
 
 A rescue pins each deferred-observation entry it disposes of this session, together
 with every sibling occurrence across that task's review files, when the repair is
-applied, on the user's word, and not at the moment of a judgment made before it. The
+applied, and not at the moment of a judgment made before it. The
 pin follows the grammar and dedup rule of `orchestrator-artifacts`
 § "6. Status-marker grammar" — by that pointer, never redefined here.
 
@@ -271,7 +279,7 @@ from. The first write happens at the end of Step 3; this section defines it.
 **Extending the file.** The file is extended while the rescue is hot. Each addition is
 a section headed by its date (`## <YYYY-MM-DD>`) and appended directly to the path the
 first write returned, with Edit/Write and not through `note`. The lines already in the
-file stay as written. The section appended once the repair is done, on the user's word,
+file stay as written. The section appended once the repair is done
 records what the repair did, the rollback state the task was left in, and what was
 deleted or kept. When the first write returned no path, because it failed per "When the
 write cannot happen", nothing is appended and Write creates no file.
