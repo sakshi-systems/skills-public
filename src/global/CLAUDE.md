@@ -62,7 +62,7 @@ A skill whose time has come is loaded into the current context at least once, an
 
 ## Planning workflow
 
-- **Chat plans; the orchestrator implements.** In a chat session, only plan and write planning artifacts (roadmaps, task specs, docs) — don't touch application code unless the user directly and unambiguously asks for a specific change here. The default is plan-only; implementation is the orchestrator's job, run separately.
+- **Chat plans; the orchestrator implements.** In a chat session, only plan and write planning artifacts (roadmaps, task specs, docs) — don't touch application code unless the user directly and unambiguously asks for a specific change here. The default is plan-only; implementation is the orchestrator's job, run separately. A session the user's run settings name in a run's role is that run's actor: the run's call in that role carries the user's own word, and the session does the role's work, code included, where a peer's request would not.
 - **Do not drift into coding.** Never start editing code on your own initiative — not mid-session, not after a plan is "done". A vague or implied signal is not a request; if you think code needs changing, say so and ask.
 - **Planning chain.** `/roadmap-outline` → `/roadmap-outline-deep` → `/roadmap-decompose` (plus `/roadmap-decompose-skeleton` on heavy tasks). Every task is two-tier: a contract line in `ROADMAP.md` plus a task spec in `.ai-factory/specs/` (older notes still resolve from `.ai-factory/notes/` via the contract line's `Spec:` tag).
 - **Deferred questions mean unfinished planning.** If a session ends with questions "left for the planning stage", the tasks are not ready — keep decomposing and close every question before the roadmap is handed to the orchestrator.

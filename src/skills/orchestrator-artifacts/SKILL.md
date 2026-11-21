@@ -21,27 +21,27 @@ via `` grep -l "orchestrator-artifacts" src/skills/*/SKILL.md src/commands/*.md 
 
 Artifacts live under the target repo's `.ai-factory/`: `plans/` (`<seq>-<slug>.md`
 plan + `<seq>-<slug>.json` sidecar), `plan-reviews/` (`<seq>-<slug>-plan-review-N.md`),
-`reviews/` (`<seq>-<slug>-review-N.md`). Test mode adds `test-runs/` (`<seq>-<slug>-test-N.txt`)
-and roots at `ROADMAP_TESTS.md`. This flat layout is for the default pair
-(`ROADMAP.md`/`ROADMAP_TESTS.md`); a named roadmap's artifacts live under a
-subdirectory keyed by its **segment** — the roadmap file's stem with a trailing
+`reviews/` (`<seq>-<slug>-review-N.md`, `<seq>-<slug>-implementer-N.md` — the
+implementer's answer for iteration N). Test mode adds `test-runs/`
+(`<seq>-<slug>-test-N.txt`) and roots at `ROADMAP_TESTS.md`. This flat layout is for
+the default pair (`ROADMAP.md`/`ROADMAP_TESTS.md`); a named roadmap's artifacts live
+under a subdirectory keyed by its **segment** — the roadmap file's stem with a trailing
 `-tests` removed, so a named roadmap and its test sibling share the segment and its
 numbering axis: `roadmaps/john-doe.md` and `roadmaps/john-doe-tests.md` both key
-`plans/john-doe/…`, the same segment under `plan-reviews/`, `reviews/`,
-`test-runs/`. `<seq>` is assigned by the orchestrator at plan time and is not
-recoverable from a contract line; `N` is the round number — files in round order are
-the finding→fix history. Numbering is per-directory — each subdirectory carries its
-own `<seq>` axis, shared by the pair that keys it.
+`plans/john-doe/…`, the same segment under `plan-reviews/`, `reviews/`, `test-runs/`.
+`<seq>` is assigned by the orchestrator at plan time and is not recoverable from a
+contract line; `N` is the round number — files in round order are the finding→fix
+history. Numbering is per-directory — each subdirectory carries its own `<seq>` axis,
+shared by the pair that keys it.
 
 ## 2. Signals
 
 A review passes when its file ends with `PLAN_REVIEW_PASS` / `REVIEW_PASS`
 (`TEST_PASS` for test runs) on its own last line; no signal on the last round means
 the stage did not pass. `ESCALATION` is a third signal shape, opposite in meaning to
-the PASS signals — it stops the run rather than continuing it. Any of the four roles
-(planner, implementer, plan-reviewer, reviewer) writes it on the last line of the
-artifact it already owns: the plan file for the planner and the implementer, the
-plan-review or review file for the two reviewers.
+the PASS signals — it stops the run rather than continuing it. It ends the artifact it
+belongs to — the plan file, the plan-review file, the review file or the implementer's
+answer file — on its own last line.
 
 ## 3. Sidecar fields
 
