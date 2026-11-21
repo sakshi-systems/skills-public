@@ -29,9 +29,11 @@ the data stays where it is.
 
 The family root opens as its entry point: a README and the layout of its sibling repositories.
 
+The role seeds open as they are, each its own repository in `sakshi-systems` (`razor`, `navigator`, `architect`, `builder`, `musafir`), public itself. A seed is the skills' distillate: one instruction file an agent works from as one role, with no memory behind it to keep closed, so a public copy beside it would only be a second home of the same text. A seed has no counterpart and no release cut, and its history is public with it.
+
 ## The public surface is a repository of its own
 
-Each opened repository has a public counterpart, a separate repository with a history of its own,
+Each opened repository but the seeds has a public counterpart, a separate repository with a history of its own,
 and it holds only the product. The closed repositories keep their names; the public one is
 `<name>-public`, in the GitHub organization `sakshi-systems`, where the closed ones live as well:
 `skills-public`, `orchestrator-public`, `testlab-public`, and `sakshi-public` for the family root.

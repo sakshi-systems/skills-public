@@ -1,4 +1,4 @@
-> This document is final and is not subject to update.
+> This document changes only when every head of the team agrees; the person is one of those voices, not above them.
 
 # Reserved words — the shared vocabulary of the sakshi system
 
@@ -84,7 +84,7 @@ Home — `orchestrator-artifacts`, [skill-cycle](sakshi-harness/skill-cycle.md),
 - **PASS signal** — `PLAN_REVIEW_PASS` / `REVIEW_PASS`, a stage's pass marker.
 - **deferred observations** — review remarks left unresolved; unpinned ones block a prune. The heading a program scans, `## Deferred observations`, is a protocol token.
 - **prune · rescue** — operations: fold `[x]` tasks into Features; repair a task that did not converge to the depth of its root cause.
-- **failure** — a step exhausted its attempt budget without its result: a review cycle without a PASS signal, or an implement step that changed nothing; a verdict about the work.
+- **failure** — a step exhausted its attempt budget without its result: a review cycle without a PASS signal; a verdict about the work.
 - **halt** — the run stops for a cause outside the review cycle (a resource, an infrastructure fault, an operator); not a judgment about the work.
 - **escalation** — an agent stops the run before its budget is spent because its mandated output cannot honestly be produced without a decision outside its authority; also carries no verdict about the work, but the cause is the agent's own recognized boundary, never an external one — the distinction from halt.
 
@@ -111,6 +111,12 @@ Home — `agent-architect`, `editor` (`src/agents/editor.md`), `explorer` (`src/
 - **architect** — the plan-and-review persona: reasons, decides, drafts work-orders, checks what landed.
 - **editor** — the persistent subagent the architect spawns on first contact and keeps for the session; applies the edits ordered to it, reads independently, and reports back by fact.
 - **explorer** — the persistent subagent a head that writes nothing (the razor, the navigator) keeps as its hand; reads wide, reports facts with their anchors, gives no verdict, and writes only its own snapshot.
+
+## Roles at birth
+
+Home — the family root's `CLAUDE.md`, its `seeds/` entry.
+
+- **seed** — a role at birth: one instruction file with none of our skills, from which Sakshi raises that role.
 
 ## Looking back
 
