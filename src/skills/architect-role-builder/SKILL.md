@@ -20,7 +20,7 @@ loads: orchestrator-artifacts committing
 
 A pipeline is the phase range the user hands to a responsible builder, prepared, executed and closed as a whole: the builder prepares each phase with its peers, starts the authorized orchestrator runs, assesses their outcomes and closes the phases, deferred observations included.
 
-A phase's now is the code as every open phase above it leaves it, so when you prepare a later phase of the range, ask whether its now rests on what an earlier phase, not yet landed, rewrites. If it does, that now is a prediction built from the earlier phase's after, and it fails if the earlier phase lands differently, which the run pays for in plan-review rounds or a rescue. With the range in view, weigh that cost: where the earlier phase's after is written, its tasks decomposed and their specs final, build the now from it, as the standing entry "a task's now" in `agent-architect`'s buffer template (`templates/buffer-template.md`) has it, and re-read it against the code once the earlier phase lands; where it is not written, there is no after to build from, and waiting, or decomposing the earlier phase first, pays.
+A phase is decomposed once the phase above it has landed, from the code as it then is. Before the landing its now is a prediction built from the earlier phase's after, and it fails if that phase lands differently, which the run pays for in plan-review rounds or a rescue.
 
 ## Review in parallel, reconcile before the apply order
 
