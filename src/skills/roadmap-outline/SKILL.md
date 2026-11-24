@@ -79,8 +79,13 @@ the open `[ ]` lines, never the whole file: compare its
 open phases and open `[ ]` tasks with the direction being laid, including work that
 direction will later remove.
 
-Propose deleting a contradicted phase or rewriting its intro. Propose deleting
-contradicted open tasks. A phase and its note are a pair: when rewriting an intro,
+Before proposing to delete a contradicted phase, check whether it holds any `[x]`
+line. The map shows only open lines, so a phase with only `[x]` lines looks empty
+there; test the phase's span in the file for the presence of `[x]` lines, without
+reading their content. A phase that holds some is never proposed for deletion: it
+keeps its header and those lines, and the proposal rewrites its intro instead.
+Propose deleting a contradicted phase that holds none, or rewriting its intro.
+Propose deleting contradicted open tasks. A phase and its note are a pair: when rewriting an intro,
 preserve its `Governing spec:` line, any `**Touches:**` line and the existing
 `Phase note:` pointer, with that pointer still closing the intro, and keep the intro
 short. Rewrite the content that changed in place in the note at the path the pointer

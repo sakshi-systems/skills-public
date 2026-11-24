@@ -185,8 +185,9 @@ part of the repair.
 **Deleting files.** The stalled task's files are those Step 1 grouped under its
 `<seq>-<slug>`, in its segment. Each is deleted by its path with `rm -f -- <path>`.
 Deletion keys on the `<seq>-<slug>` pair and never on the slug alone, because several
-plans can carry one slug. It never deletes another task's files, and never those of a
-task at `done`.
+plans can carry one slug. It never deletes another task's files, except those of the
+open tasks of a phase the "Rollback states" row removes, and never those of a task at
+`done`.
 
 **Writing the sidecar.** Locate the sidecar in the stalled group's segment, where Step 1
 located it, as `orchestrator-artifacts` § "1. Layout" lays it out; when none exists it is

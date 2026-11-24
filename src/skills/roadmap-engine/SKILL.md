@@ -295,8 +295,6 @@ as they are, then show the update summary:
 ```
 ## Roadmap Updated
 
-Total entries: N
-Completed: X/N
 Next up: **Entry Name**
 ```
 
@@ -341,7 +339,6 @@ On confirmation, mark the done entries `[x]`; leave partial and not-started entr
 unchanged. Show the updated summary:
 
 ```
-Completed: X/N
 Next up: **Entry Name**
 ```
 

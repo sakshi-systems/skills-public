@@ -70,10 +70,10 @@ product to a document outside the public set becomes its plain text, and the pat
 repository links by absolute address keep their place across releases: `docs/architect-runtimes.md`,
 the two `architect-runtime-*` skills, and `src/skills/roadmap-engine/scripts/user-slug.sh`.
 
-A product with a test suite runs it in the release tree, and the search of the difference below
-runs before the branch is pushed. The release commit is authored and committed as the organization's
-public identity, `sakshi-systems` with its GitHub no-reply address, never as the user, and carries no
-attribution line. The branch is pushed and the pull request opens into `main`.
+A product with a test suite runs it in the release tree, and the sweep below runs, and passes,
+before the branch is pushed. The release commit is authored and committed as the organization's
+public identity, `sakshi-systems` with its GitHub no-reply address, never as the user, and carries
+no attribution line. The branch is pushed and the pull request opens into `main`.
 
 ## Each release is swept
 
@@ -88,12 +88,12 @@ What is checked is the release's difference, which is small; for the first relea
 is the whole product against nothing. Three steps run on it, in order. A search of the difference
 covers what is always private and needs no list to keep: absolute home paths, email addresses and
 host addresses; a hit stops the release, naming the file and the line. An agent then reads the
-difference for what needs judgment, another team's project or a person named in the product. Then
-comes the user's word, given on the public pull request after an external reviewer installed on the
-public repositories has reviewed the difference: the head reads that review and brings it to the
-user, and the user's merge, or a merge the user has authorized, is the release. The external
-reviewer reads the difference without the task's intent, as an audit. While releases are cut by
-hand the search needs no dedicated script.
+difference for what needs judgment, another team's project or a person named in the product; both
+run, and pass, before the branch is pushed. Then comes the user's word, given on the public pull
+request after an external reviewer installed on the public repositories has reviewed the difference:
+the head reads that review and brings it to the user, and the user's merge, or a merge the user has
+authorized, is the release. The external reviewer reads the difference without the task's intent, as
+an audit. While releases are cut by hand the search needs no dedicated script.
 
 ## Review and merge
 
@@ -101,7 +101,8 @@ The external reviewer, CodeRabbit, reviews the pull request, and the head answer
 fixes the point, or says why it does not. Critical points are closed before the release, in two
 rounds at most, and what remains then goes to the user. A fix after the review is a commit of its
 own on the release branch, never an amend, so the pull request carries the release commit and the
-review's work after it. A clean pass posts no review and only edits the reviewer's summary comment,
+review's work after it. The same fix reaches the closed `dev` by a pull request of its own, and the
+closed release point is not rewritten. A clean pass posts no review and only edits the reviewer's summary comment,
 which is what a head waiting on it watches.
 
 On the merge, the public `main` is fast-forwarded to the release branch's tip, never by a merge
