@@ -2,8 +2,7 @@
 name: task-rescue
 description: >-
   Repairs a task that did not land as its spec meant (an orchestrator run stopped by a
-  failure or an escalation, or a review finding on a closed task that shows the task or
-  its phase itself wrong) to the depth of the root cause: reads the artifacts the run
+  failure or an escalation) to the depth of the root cause: reads the artifacts the run
   left, writes its report with the intended repair and rollback, applies them so the
   orchestrator re-validates from there, and checks open tasks below for the same gap.
   Trigger phrases: "rescue", "milestone failed", "orchestrator run stopped".
@@ -21,10 +20,7 @@ subject of this skill is what the stopped task needs, read from the artifacts it
 disk. It fixes neither the root's kind nor its place: the rescue answers a few questions
 about the stalled task, writes its report with the repair and rollback it intends. The
 repair then reaches as deep as the root cause. A run stopped at any stage by a failure
-or an escalation is rescued by the table of § "Rollback states"; a closed task shown
-wrong is rescued first, with a report and a repaired spec, and leaves by the row
-"The task is closed and a finding shows the task itself wrong", a new line `N.Ma`
-carrying the fix.
+or an escalation is rescued by the table of § "Rollback states".
 
 The roadmap contract line (in `$TARGET_FILE`) is the roadmap half of the two-tier spec
 pair (alongside the task spec the task's `Spec:` tag names) and is edited when the spec
@@ -67,17 +63,9 @@ slug no consulted roadmap carries is not a candidate.
 sidecar counts as not `done`. A group whose `step` is not `done` and whose contract line
 is not `[x]` is a stalled task. A group at `done`, or whose line is `[x]`, is a finished
 task and not a candidate — this also covers a task finished before the orchestrator
-recorded `done`, which sits at `implemented:N` with an `[x]` line.
-
-Where the occasion is a review finding and not a run stopped by a failure or an
-escalation, the task is the one the finding names, found by its contract line and task
-spec and not by an artifact group, `$TARGET_FILE` is the roadmap holding that contract
-line, and the repair of a closed task shown wrong is the row
-"The task is closed and a finding shows the task itself wrong" of § "Rollback states";
-the stalled-task test, the stop below and every row of § "Rollback states" except the
-three that begin "The task is closed" apply to a rescue whose occasion is a run stopped
-by a failure or an escalation. If no group is stalled, stop and tell the user: there is
-nothing to rescue. If several are, ask the user which task to rescue before proceeding.
+recorded `done`, which sits at `implemented:N` with an `[x]` line. If no group is stalled,
+stop and tell the user: there is nothing to rescue. If several are, ask the user which
+task to rescue before proceeding.
 
 **Resolve `$TARGET_FILE` and locate the task.** `$TARGET_FILE` is the stalled group's
 roadmap, and the task is its contract line, both found above.
@@ -211,22 +199,19 @@ two-space indentation.
 
 | The repair | The state | Deletes and keeps | Requires |
 |---|---|---|---|
-| The task is wrong and goes, or a phase when its direction proves wrong | The task, or the phase's open tasks, are gone | It deletes the task's files by `<seq>-<slug>`, its roadmap line and its spec, and for a phase those of each of its open tasks. Done tasks stay with their lines, and the phase header stays while any task remains. A phase left with no task loses its header and raises `> Highest pruned phase: N` to its number when that is higher, in the same save | nothing |
+| The task is wrong and goes, or a phase when its direction proves wrong | The task, or the phase's open tasks, are gone | It deletes the task's files by `<seq>-<slug>`, its roadmap line and its spec, and for a phase those of each of its open tasks. Done tasks stay with their lines, and the phase header stays while any task remains. A phase left with no task loses its header and raises `> Highest pruned phase: N` to its number when that is higher, in the same save. It also discards the implementer's result as the full reset row defines it; the heads' writes stay | nothing |
 | The spec alone is repaired, planning on or off | Full reset | The plan `.md`, every plan-review, every review, the implementer's answer files `reviews/<seq>-<slug>-implementer-N.md` and the sidecar are deleted, and the implementer's result is discarded — nothing of the attempt remains. The result is the working tree's change outside `.ai-factory` against the commit the attempt started from, and those paths are restored to it; `.ai-factory` is not the result — the row's own deletions take the run's records, and the heads' writes stay. The repair itself, the spec and the contract line, is not the result, and writes another head made during the run are not the implementer's result, memory included; the discard leaves them. This holds for every implementer, because during a run no head edits the product | nothing |
 | The spec and the plan are repaired, planning on | `planned:1` | The plan stays. Every plan-review and every review is deleted. The implementer's answer files `reviews/<seq>-<slug>-implementer-N.md` are deleted with them. `step` is `"planned:1"` and `implementer` is dropped | the plan `.md` on disk |
 | The spec, the plan and the code are repaired, planning on | `implemented:1` | The plan, the passing plan-reviews and the working-tree diff stay. Every review is deleted. The implementer's answer files `reviews/<seq>-<slug>-implementer-N.md` are deleted with them. `step` is `"implemented:1"` and `implementer` stays | the plan on disk and a non-empty working diff |
 | Planning is off and the spec and the code are repaired | `planning:1` | The plan file, every plan-review, every review and the implementer's answer files `reviews/<seq>-<slug>-implementer-N.md` are deleted, the working diff stays, `step` is `"planning:1"` and `implementer` is dropped. Under planning off the plan is the spec laid, so no row repairs a plan separately there | nothing |
-| The task is closed and a finding is about its code | A new line `N.Ma` under the task | Nothing of the task changes: its files, its line and its spec stay | the task marked done |
-| The task is closed and deferred observations remain | No line of the task is made: they are disposed of at phase closure, as `architect-role-builder` § "Phase closure" has it | The task is not changed | the task marked done |
-| The task is closed and a finding shows the task itself wrong | A rescue first, with a report and a repaired spec, whose rollback is the new line `N.Ma` carrying the fix | The closed task's files and line stay | the task marked done |
 
 ---
 
 ### Valid sidecar `step` states
 
 This table is the **closed set** of sidecar `step` values the orchestrator validates when it
-resumes; Step 5 writes one of the states of every row of § "Rollback states" except the
-three that begin "The task is closed" and never another value from this table.
+resumes; Step 5 writes one of the states of § "Rollback states" and never another value
+from this table.
 The artifact paths here and in the test-mode line below are the default pair's flat
 layout; for a named roadmap they gain its `<segment>/` segment, per `orchestrator-artifacts`
 § 1, the way Step 1 locates the sidecar.

@@ -17,9 +17,10 @@ allowed-tools: Read Grep Glob Bash Agent SendMessage ListAgents Skill
 
 ## The user's vectors
 
-The user sets the vectors: a global one, and the current direction. The navigator keeps them in its own buffer and reads every step against them, asking one question:
+The user sets the vectors: a global one, and the current direction. The navigator keeps them in its own buffer and reads every step against them, asking:
 
 - Does this go where the user points?
+- Does the grove's path map still point at each repository's roadmap phases in their own order, and how far does this step move the points it names?
 
 ## Why a release is marked
 

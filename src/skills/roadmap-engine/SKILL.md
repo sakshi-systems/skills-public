@@ -254,8 +254,9 @@ confirmation receive no task spec — only the confirmed set gets task specs.
 
 ### Update mode (subsequent run)
 
-**Read current state:** `$TARGET_FILE` and a brief codebase check for what's
-changed since the last update.
+**Read current state:** the map of `$TARGET_FILE` — its phase headings and phase
+intros and its open `[ ]` lines, plus the entries the flow changes, never the whole
+file — and a brief codebase check for what's changed since the last update.
 
 **Determine the action:** if the argument carries the requested changes, apply them
 directly. Otherwise present the action menu — the caller may register additional
@@ -286,9 +287,10 @@ Options:
   describe priority changes, then reorder entries in `$TARGET_FILE`.
 - **Rewrite:** re-run the Create-mode draft→confirm cycle (gather input, explore,
   draft in memory, apply the per-entry gate hook, confirm) over the existing
-  `$TARGET_FILE`, replacing its contents on confirmation.
+  `$TARGET_FILE`, replacing on confirmation what it read — not the file.
 
-**Save changes** to `$TARGET_FILE`, then show the update summary:
+**Save changes** to `$TARGET_FILE` by editing in place, so the lines not read stay
+as they are, then show the update summary:
 
 ```
 ## Roadmap Updated
@@ -345,7 +347,9 @@ Next up: **Entry Name**
 
 ### Critical rules (mechanism)
 
-1. **`$TARGET_FILE` is the source of truth** — always read it before modifying.
+1. **`$TARGET_FILE` is the source of truth** — always read its map (phase
+   headings, phase intros, open `[ ]` lines and the entries being changed) before
+   modifying, never the whole file, and modify in place.
 2. **Never remove entries silently** — always confirm with the user before removing.
 3. **Completed entries stay as `[x]` in the list** — `roadmap-prune` moves them to
    `ARCHITECTURE.md`.

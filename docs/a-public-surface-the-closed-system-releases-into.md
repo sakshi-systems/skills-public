@@ -54,6 +54,27 @@ public repository, the
 closed repository's `dev` goes into its main branch, up to the release point. The closed history never leaves: the public repository shows what each version holds, never how it
 came to hold it.
 
+## How a release is cut
+
+A release is cut when the navigator says it is due, and the text of its marker, which the navigator
+places, becomes the description of the public pull request. Every group the marker collects is already
+in the closed repository's `dev`, merged by rebase and fast-forward and never by a merge commit, so the
+history reads as what happened.
+
+The release branch is brought to the product at the release point. The orchestrator's is taken by its
+include list: the code and its tests whole, and the listed docs whole, since a doc may run ahead of the
+code and trimming it for a release would contradict what it is; the public README is kept as it
+stands, and the version is set where the project carries it. The skills' is the difference since the
+last cut, applied onto a clone of the public repository's `main`. In either cut a link from the
+product to a document outside the public set becomes its plain text, and the paths another public
+repository links by absolute address keep their place across releases: `docs/architect-runtimes.md`,
+the two `architect-runtime-*` skills, and `src/skills/roadmap-engine/scripts/user-slug.sh`.
+
+A product with a test suite runs it in the release tree, and the search of the difference below
+runs before the branch is pushed. The release commit is authored and committed as the organization's
+public identity, `sakshi-systems` with its GitHub no-reply address, never as the user, and carries no
+attribution line. The branch is pushed and the pull request opens into `main`.
+
 ## Each release is swept
 
 Each release is swept. The closed repository is the system's memory, and it names what it works with
@@ -70,8 +91,29 @@ host addresses; a hit stops the release, naming the file and the line. An agent 
 difference for what needs judgment, another team's project or a person named in the product. Then
 comes the user's word, given on the public pull request after an external reviewer installed on the
 public repositories has reviewed the difference: the head reads that review and brings it to the
-user, and the user's merge is the release. The external reviewer reads the difference without the
-task's intent, as an audit. While releases are cut by hand the search needs no dedicated script.
+user, and the user's merge, or a merge the user has authorized, is the release. The external
+reviewer reads the difference without the task's intent, as an audit. While releases are cut by
+hand the search needs no dedicated script.
+
+## Review and merge
+
+The external reviewer, CodeRabbit, reviews the pull request, and the head answers every thread: it
+fixes the point, or says why it does not. Critical points are closed before the release, in two
+rounds at most, and what remains then goes to the user. A fix after the review is a commit of its
+own on the release branch, never an amend, so the pull request carries the release commit and the
+review's work after it. A clean pass posts no review and only edits the reviewer's summary comment,
+which is what a head waiting on it watches.
+
+On the merge, the public `main` is fast-forwarded to the release branch's tip, never by a merge
+commit, and the release is tagged `vX.Y.Z` with an unsigned tag made by `sakshi-systems`. The closed
+repository's main branch is fast-forwarded to the release point, not to the tip of `dev`, and the release point is tagged `vX.Y.Z` there too, so the closed history shows which commit became which release.
+
+## The roadmap closes last
+
+The roadmap records the release last. Its `---RELEASE---` marker keeps the version, `vX.Y.Z`, alone,
+and the `---PR---` markers of the groups the release collected leave; the change is refused while
+a group whose marker would leave still holds an open task. It is committed into `dev` with the
+release's closure.
 
 ## Why the line runs here
 

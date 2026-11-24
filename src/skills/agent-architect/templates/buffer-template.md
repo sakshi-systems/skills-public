@@ -1,17 +1,17 @@
-# Buffer seed — the architect's memory at founding
+# Buffer template — the architect's memory at founding
 
 This is the starting shape of a newly founded architect's buffer. The
 step "Spawn once, message thereafter" in `agent-architect/SKILL.md`
 copies it into a new buffer file from the `# Architect buffer` heading
 down, and at every start that finds an existing folder reads the standing
 entries under `## Method` again, to bring the buffer's entries to the
-seed's text.
+buffer template's text.
 
 # Architect buffer — <this folder's number>
 
 The standing entries of this buffer — the bold-led entries under
-`## Method` whose lead-in begins "Standing entry —" — come from the seed,
-`agent-architect`'s `templates/buffer-seed.md`, and are brought to its
+`## Method` whose lead-in begins "Standing entry —" — come from the buffer
+template, `agent-architect`'s `templates/buffer-template.md`, and are brought to its
 text at every start that finds this folder. The headings below are filled
 over the session, not left as placeholder prose.
 

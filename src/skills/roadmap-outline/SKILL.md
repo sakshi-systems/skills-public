@@ -74,8 +74,10 @@ proposal” supplies the update confirmation extension.
 ## Reconcile the roadmap against the direction
 
 Apply this section in every Create and Update pass, before showing the draft.
-Read `$TARGET_FILE` when it exists: compare its open phases and open `[ ]` tasks
-with the direction being laid, including work that direction will later remove.
+When `$TARGET_FILE` exists, read its map — the phase headings and phase intros and
+the open `[ ]` lines, never the whole file: compare its
+open phases and open `[ ]` tasks with the direction being laid, including work that
+direction will later remove.
 
 Propose deleting a contradicted phase or rewriting its intro. Propose deleting
 contradicted open tasks. A phase and its note are a pair: when rewriting an intro,

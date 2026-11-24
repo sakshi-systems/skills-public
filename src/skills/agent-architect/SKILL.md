@@ -72,10 +72,10 @@ no role word, a head doing a builder's work meets the builder's skill at the
 moment of need, by its description; a head whose personality holds a
 question and no role word asks the user for the word through the selected
 runtime's question facility, and never defaults. Reconcile the standing
-entries of `templates/buffer-seed.md` with the buffer by bold lead-in: take
-the seed's text where they differ and add missing entries to the buffer's
+entries of `templates/buffer-template.md` with the buffer by bold lead-in: take
+the buffer template's text where they differ and add missing entries to the buffer's
 method section. No folder found means a new head — never ask which — founded
-at the engine's path and numbering: create `buffer.md` from the seed's
+at the engine's path and numbering: create `buffer.md` from the buffer template's
 `# Architect buffer` heading down, filling the title with the folder number.
 Either way the buffer exists before any hand does.
 
