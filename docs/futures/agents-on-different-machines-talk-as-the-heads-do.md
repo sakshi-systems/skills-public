@@ -66,7 +66,7 @@ What the candidates do not give, and the family would:
 
 ## Three roads an agent of another developer can take
 
-Take one case. Another developer's agent reviews the user's pull request. It does not look into the shared store where the work's roadmap and specs sit, because nothing points it there: it reads the diff and the description, and the store is outside both. Two of the three roads need nothing that does not exist, and each lies where its reader already looks.
+Take one case. Another developer's agent reviews the user's pull request. It does not look into the shared store where the work's roadmap and specs sit, because nothing points it there: it reads the diff and the description, and the store is outside both. Each of the three roads lies where its reader already looks.
 
 **The pull request's description.** The description names where the work's roadmap and specs live in the shared store. A reviewer reads the description anyway, so an address placed there is met at the moment the decision to look is made, while an instruction kept away from that moment does not act ([instruction-in-data](../instruction-in-data.md), [principles-at-their-moment](../philosophy/principles-at-their-moment.md)). It needs no one's consent.
 
