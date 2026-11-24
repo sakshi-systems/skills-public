@@ -128,6 +128,7 @@ Example (adapt wording to the actual session):
 > Handoff saved → `.ai-factory/handoffs/03-auth-refactor.md`
 >
 > **Frame:** We finished extracting the auth layer; the originating session's context isn't available here — trust these files, not memory.
+>
 > **Next:** Run the migration dry-run and confirm row counts match before applying.
 >
 > *Paste the path above into the next session to rehydrate.*

@@ -10,8 +10,7 @@ mkdir -p docs-html
 
 For each markdown file (README.md + `<resolved docs dir>/*.md`), generate an HTML version:
 
-Read the HTML template from `templates/html-template.html` and use it for each page.
-Customize: `{page_title}`, `{project_name}`, `{nav_links}`, `{content}`.
+Read the HTML template from `templates/html-template.html` and use it for each page. Customize: `{page_title}`, `{project_name}`, `{nav_links}`, `{content}`.
 
 #### 3.3: Convert markdown to HTML
 

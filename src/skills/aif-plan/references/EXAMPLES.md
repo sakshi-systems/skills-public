@@ -1,8 +1,6 @@
 # aif-plan Examples
 
-`/aif-plan` takes a single `<description>` argument — there are no mode keywords or
-subcommands. It always produces one named plan file at
-`.ai-factory/plans/<NN>-<slug>.md`, then stops.
+`/aif-plan` takes a single `<description>` argument — there are no mode keywords or subcommands. It always produces one named plan file at `.ai-factory/plans/<NN>-<slug>.md`, then stops.
 
 ## Argument
 
@@ -11,8 +9,7 @@ subcommands. It always produces one named plan file at
 -> description="Add product search API"
 ```
 
-The entire argument is the description. There is no `fast`/`full`/`--parallel`/
-`--list`/`--cleanup` parsing, and no branch or worktree is created.
+The entire argument is the description. There is no `fast`/`full`/`--parallel`/ `--list`/`--cleanup` parsing, and no branch or worktree is created.
 
 ## Flow Scenarios
 

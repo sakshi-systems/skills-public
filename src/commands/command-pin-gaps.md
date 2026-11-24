@@ -14,8 +14,7 @@ allowed-tools: Read Edit Grep Glob Bash(ls *) Bash(rg *) Bash(git *) Skill
 loads: roadmap-engine
 ---
 
-Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not
-already loaded) — it defines the named-roadmap resolution referenced below.
+Ensure `roadmap-engine` is loaded once this chat (via the Skill tool, only if not already loaded) — it defines the named-roadmap resolution referenced below.
 
 Target, in priority order: the file(s) in `$ARGUMENTS`, if given — else the scope under discussion in chat (a named task, phase, or task spec) — else all open `- [ ]` tasks of the roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit argument → "my roadmap" → default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) above `---STOP---`. Each task the target names is walked alone, in roadmap order: the command reads that task's contract line and its `Spec:`-tagged task spec, holds that task and nothing else, finishes that task's findings before the next is opened, and does not stop between tasks.
 

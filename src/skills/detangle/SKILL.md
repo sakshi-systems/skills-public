@@ -11,9 +11,7 @@ argument-hint: "[topic or file or question]"
 
 # Detangle
 
-You are working in a fractal architecture. Every element — a file, a component, a model,
-a field — exists at a specific level of the tree. You cannot reason about it correctly
-without knowing its position in the full tree.
+You are working in a fractal architecture. Every element — a file, a component, a model, a field — exists at a specific level of the tree. You cannot reason about it correctly without knowing its position in the full tree.
 
 **Architecture is a fractal:**
 - Leaf = usage surface (UI component, controller endpoint, CLI interface, entry point)
@@ -27,10 +25,7 @@ The same three roles repeat recursively at every zoom level.
 
 ## Before you start — load project context
 
-Whichever of `.ai-factory/ARCHITECTURE.md` / `.ai-factory/ROADMAP.md` exists is already
-raised as one of the project's entry maps per global § "Grounding claims" — re-read it
-fresh here for detangle's own angle: is the element you're looking at part of an
-in-progress or planned task? That changes the impact analysis in Step 4.
+Whichever of `.ai-factory/ARCHITECTURE.md` / `.ai-factory/ROADMAP.md` exists is already raised as one of the project's entry maps per global § "Grounding claims" — re-read it fresh here for detangle's own angle: is the element you're looking at part of an in-progress or planned task? That changes the impact analysis in Step 4.
 
 ---
 
@@ -46,17 +41,14 @@ From the argument `$ARGUMENTS` (or conversation context if no argument), determi
 
 Do NOT stay at the leaf level. Raise context level by level by **reading the code**:
 
-**Leaf level:**
-Read the file/component itself. Understand what it does on the surface.
+**Leaf level:** Read the file/component itself. Understand what it does on the surface.
 
-**Branch level (subdomain):**
-Ask: why does this leaf exist? What connects it to the domain?
+**Branch level (subdomain):** Ask: why does this leaf exist? What connects it to the domain?
 - Follow imports and calls upward: who owns this? Who calls it?
 - What transport, reactive mechanism, or adapter sits between this leaf and the domain?
 - Is this a controller, a processing stage, a ViewModel, a service layer, a message handler?
 
-**Trunk level (domain):**
-Ask: what is the core invariant this leaf ultimately serves?
+**Trunk level (domain):** Ask: what is the core invariant this leaf ultimately serves?
 - What state does the domain own? Where is it persisted or held?
 - What are the business rules enforced at this level?
 - Who else in the codebase touches this same domain?

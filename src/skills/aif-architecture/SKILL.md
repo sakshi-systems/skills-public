@@ -97,8 +97,7 @@ Architecture options:
 - **Explicit Architecture (Vertical Slice By Entity)**
 - **Explicit Architecture (Flat Vertical Slice - Simplified)**
 - **Microservices**
-- **Layered Architecture**
-(See `references/architecture.md` for detailed descriptions of these patterns to formulate your recommendation).
+- **Layered Architecture** (See `references/architecture.md` for detailed descriptions of these patterns to formulate your recommendation).
 
 **CRITICAL INSTRUCTION:** You MUST read `references/architecture.md` before generating the `ARCHITECTURE.md` artifact to ensure correct terminology, dependency directions.
 

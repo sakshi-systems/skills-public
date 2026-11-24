@@ -1,15 +1,12 @@
 # LogQL reference
 
-Ad-hoc and hand-written query detail for `observe-logs` — read only when the
-three canned subcommands (`since-restart`, `trace`, `window`) don't fit and a
-hand-written LogQL query is required.
+Ad-hoc and hand-written query detail for `observe-logs` — read only when the three canned subcommands (`since-restart`, `trace`, `window`) don't fit and a hand-written LogQL query is required.
 
 ---
 
 ## Structured metadata
 
-All other fields are **structured metadata** — not indexed, filtered with a
-pipeline expression (`| key="value"`) after the label selector:
+All other fields are **structured metadata** — not indexed, filtered with a pipeline expression (`| key="value"`) after the label selector:
 
 - `trace_id` — never a label; always `| trace_id="…"`
 - `span_id`, request IDs, user IDs — same rule
@@ -27,37 +24,29 @@ pipeline expression (`| key="value"`) after the label selector:
    ```
    Direction: `backward`, `limit=1`. Extracts the timestamp of the last restart.
 
-2. Fetch **all** log records for the service starting at that timestamp using
-   client-side pagination (PAGE_SIZE=5000 per call, looping until Loki returns
-   a short page):
+2. Fetch **all** log records for the service starting at that timestamp using client-side pagination (PAGE_SIZE=5000 per call, looping until Loki returns a short page):
    ```
    {service_name="<svc>"}
    ```
-   Direction: `forward`, `start=<restart_timestamp>`. Returns every line
-   regardless of how many there are — output grows as long as logs exist.
+   Direction: `forward`, `start=<restart_timestamp>`. Returns every line regardless of how many there are — output grows as long as logs exist.
 
 ---
 
 ## `trace` base selector
 
-`trace_id` is structured metadata — the script filters with `| trace_id="…"`.
-Loki requires at least one non-empty label matcher, so the script uses
-`{service_name=~".+"}` as the base selector; this spans all services.
+`trace_id` is structured metadata — the script filters with `| trace_id="…"`. Loki requires at least one non-empty label matcher, so the script uses `{service_name=~".+"}` as the base selector; this spans all services.
 
 ---
 
 ## `window` default selector
 
-omitting them defaults to `{service_name=~".+"}` (Loki requires at least
-one non-empty matcher — bare `{}` is rejected).
+omitting them defaults to `{service_name=~".+"}` (Loki requires at least one non-empty matcher — bare `{}` is rejected).
 
 ---
 
 ## Raw LogQL templates
 
-For ad-hoc queries beyond the three slices, use `curl` directly. Pull the URL
-and `Authorization` value for the target environment from `.env` (the same
-registry `--env` resolves) and export them first:
+For ad-hoc queries beyond the three slices, use `curl` directly. Pull the URL and `Authorization` value for the target environment from `.env` (the same registry `--env` resolves) and export them first:
 
 ```bash
 export LOKI_URL="<url from the .env line for your environment>"

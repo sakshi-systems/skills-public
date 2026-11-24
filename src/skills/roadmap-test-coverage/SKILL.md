@@ -13,9 +13,7 @@ loads: test-philosophy roadmap-engine
 
 # roadmap-test-coverage — Test Coverage Orchestrator
 
-Eight-layer coverage pass. Layers 4, 5, and 7 run in isolated agents to protect
-the main context. Agents write results to disk and return only one-line
-summaries back to the orchestrator.
+Eight-layer coverage pass. Layers 4, 5, and 7 run in isolated agents to protect the main context. Agents write results to disk and return only one-line summaries back to the orchestrator.
 
 `roadmap-engine` defines the named-roadmap resolution referenced below.
 
@@ -25,46 +23,23 @@ summaries back to the orchestrator.
 
 Read in order (skip if absent):
 - `.ai-factory/ARCHITECTURE.md` — module boundaries, folder structure
-- `CLAUDE.md` at the same root as the `.ai-factory/` directory in play (not
-  necessarily the ambient auto-loaded one) — the declared test command in its
-  `## Commands` section
-- The roadmap in play per `roadmap-engine`'s named-roadmap resolution order
-  (explicit `$ARGUMENTS` wins, then "my roadmap", then the default
-  `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the
-  slug/owner mechanics) — all tasks
+- `CLAUDE.md` at the same root as the `.ai-factory/` directory in play (not necessarily the ambient auto-loaded one) — the declared test command in its `## Commands` section
+- The roadmap in play per `roadmap-engine`'s named-roadmap resolution order (explicit `$ARGUMENTS` wins, then "my roadmap", then the default `.ai-factory/ROADMAP.md`; see the engine's "Named roadmaps" section for the slug/owner mechanics) — all tasks
 
-Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`),
-`$ROADMAP_PATH`.
+Store: `$STACK` (e.g. "NestJS/Jest"), `$TEST_CMD` (e.g. `npm test`), `$ROADMAP_PATH`.
 
 Resolve `$STACK` in this order:
-1. **Primary** — if `.ai-factory/ARCHITECTURE.md`'s `## Decision Rationale` →
-   `- **Tech stack:** ...` line is filled in, `$STACK` is that value verbatim.
-2. **Fallback** — only when the file is absent, the line is missing/empty, or
-   the line still carries the unfilled template placeholder
-   `[language, framework]`, infer the stack from `package.json` /
-   `pubspec.yaml` / `go.mod` / `Cargo.toml`.
+1. **Primary** — if `.ai-factory/ARCHITECTURE.md`'s `## Decision Rationale` → `- **Tech stack:** ...` line is filled in, `$STACK` is that value verbatim.
+2. **Fallback** — only when the file is absent, the line is missing/empty, or the line still carries the unfilled template placeholder `[language, framework]`, infer the stack from `package.json` / `pubspec.yaml` / `go.mod` / `Cargo.toml`.
 
-The fallback list is never extended with new per-language detectors — a
-project needing a stack it cannot sniff is expected to declare it in
-`ARCHITECTURE.md`.
+The fallback list is never extended with new per-language detectors — a project needing a stack it cannot sniff is expected to declare it in `ARCHITECTURE.md`.
 
-This resolution governs `$STACK` only. `$TEST_CMD` has its own rule, resolved
-in this order:
-1. **Primary** — the test command the project declares in its `CLAUDE.md`
-   `## Commands` section. Typically a table row such as `| Tests | pytest |`,
-   but read the section for the declared test command whatever its shape — a
-   list entry or a bare line counts too. Take it verbatim.
-2. **Fallback** — only when `CLAUDE.md` is absent, has no `## Commands`
-   section, or that section declares no test command, infer `$TEST_CMD` from
-   the same four manifests as `$STACK`'s fallback (`package.json` /
-   `pubspec.yaml` / `go.mod` / `Cargo.toml`), e.g. `npm test` out of
-   `package.json`'s scripts, `cargo test` out of `Cargo.toml`.
-3. **Neither resolves** — `$TEST_CMD` is empty. This is a defined state,
-   handled in Layer 7, not an error.
+This resolution governs `$STACK` only. `$TEST_CMD` has its own rule, resolved in this order:
+1. **Primary** — the test command the project declares in its `CLAUDE.md` `## Commands` section. Typically a table row such as `| Tests | pytest |`, but read the section for the declared test command whatever its shape — a list entry or a bare line counts too. Take it verbatim.
+2. **Fallback** — only when `CLAUDE.md` is absent, has no `## Commands` section, or that section declares no test command, infer `$TEST_CMD` from the same four manifests as `$STACK`'s fallback (`package.json` / `pubspec.yaml` / `go.mod` / `Cargo.toml`), e.g. `npm test` out of `package.json`'s scripts, `cargo test` out of `Cargo.toml`.
+3. **Neither resolves** — `$TEST_CMD` is empty. This is a defined state, handled in Layer 7, not an error.
 
-The four-manifest fallback list is never extended with per-language
-detectors — a project needing a test command it cannot sniff declares it in
-`CLAUDE.md`.
+The four-manifest fallback list is never extended with per-language detectors — a project needing a test command it cannot sniff declares it in `CLAUDE.md`.
 
 ---
 
@@ -74,10 +49,7 @@ detectors — a project needing a test command it cannot sniff declares it in
 find . -name "*.spec.*" -o -name "*.test.*" | grep -v node_modules | grep -v dist | grep -v build
 ```
 
-Read each completed and pending task in the roadmap. Group related
-tasks into **candidate areas** — one area per logical component or
-service. Each area maps to one or a few source files with a clear
-responsibility boundary.
+Read each completed and pending task in the roadmap. Group related tasks into **candidate areas** — one area per logical component or service. Each area maps to one or a few source files with a clear responsibility boundary.
 
 For each candidate area, classify:
 - **No coverage** — no spec file for the target source file(s)
@@ -90,8 +62,7 @@ Drop "Full coverage" areas. Carry forward "No coverage" and "Partial".
 
 ## Layer 3 — Silent-Failure Filter
 
-Apply `test-philosophy`'s silent-failure discriminator to each remaining candidate
-area.
+Apply `test-philosophy`'s silent-failure discriminator to each remaining candidate area.
 
 Apply the filter to every area. Drop loud-failure areas.
 
@@ -122,26 +93,11 @@ Determine next note number:
 mkdir -p .ai-factory/specs
 find .ai-factory/specs -maxdepth 1 -name "[0-9]*-*.md" -exec basename {} \; | sort -n | tail -1
 ```
-The depth limit scopes the scan to the flat `.ai-factory/specs/` directory
-only, so named-roadmap spec subdirectories are never counted. The scan counts files
-whose name matches `^[0-9]+-.*\.md$` — a leading run of digits of any
-length — and the highest prefix is the numerically largest parsed integer,
-never the last name in string order. `$NEXT_NOTE_NUM` is that integer + 1,
-written with exactly four zero-padded digits regardless of how small it
-is — this width governs only what this skill writes; existing names of any
-width are still read. If no numbered file exists, start at `0001`.
-Store as `$NEXT_NOTE_NUM`.
+The depth limit scopes the scan to the flat `.ai-factory/specs/` directory only, so named-roadmap spec subdirectories are never counted. The scan counts files whose name matches `^[0-9]+-.*\.md$` — a leading run of digits of any length — and the highest prefix is the numerically largest parsed integer, never the last name in string order. `$NEXT_NOTE_NUM` is that integer + 1, written with exactly four zero-padded digits regardless of how small it is — this width governs only what this skill writes; existing names of any width are still read. If no numbered file exists, start at `0001`. Store as `$NEXT_NOTE_NUM`.
 
-Numbers run `0001` through `9999`. When the highest number the scan finds is
-`9999` or greater, Layer 4 launches no agent and writes nothing — instead it
-stops the coverage pass here and reports that the numbering bound is reached,
-naming the destination, in the form
-`Numbering bound reached: .ai-factory/specs/ already holds 9999 — nothing
-written.` `$NEXT_NOTE_NUM` is computed once, before the parallel launch
-below, so no agent is ever spawned part-way.
+Numbers run `0001` through `9999`. When the highest number the scan finds is `9999` or greater, Layer 4 launches no agent and writes nothing — instead it stops the coverage pass here and reports that the numbering bound is reached, naming the destination, in the form `Numbering bound reached: .ai-factory/specs/ already holds 9999 — nothing written.` `$NEXT_NOTE_NUM` is computed once, before the parallel launch below, so no agent is ever spawned part-way.
 
-Launch one `general-purpose` agent per area in a **single message** (parallel).
-Each agent writes its note to disk and returns one line to the orchestrator.
+Launch one `general-purpose` agent per area in a **single message** (parallel). Each agent writes its note to disk and returns one line to the orchestrator.
 
 **Agent prompt template:**
 
@@ -206,9 +162,7 @@ Collect all one-line confirmations.
 
 ## Layer 5 — Testability Review (parallel agents)
 
-Launch one `general-purpose` agent per area in a **single message** (parallel),
-passing `$STACK` from Layer 1 as `<stack>`. Each agent reads the source file
-and returns a one-line verdict only.
+Launch one `general-purpose` agent per area in a **single message** (parallel), passing `$STACK` from Layer 1 as `<stack>`. Each agent reads the source file and returns a one-line verdict only.
 
 **Agent prompt template:**
 
@@ -293,13 +247,8 @@ Collect all verdicts.
 
 For each `needs-refactor` verdict from Layer 5:
 
-1. Append an entry to `$HANDOFF_LIST` (in-memory, carried through to
-   Layer 8): area name + one-sentence refactor description (from the
-   verdict) + pointer to its Layer-4 note path
-   (`.ai-factory/specs/<NN>-<slug>.md`).
-2. Open the corresponding Layer 4 note and append a `## Refactor Required`
-   section: what to refactor, and what the post-refactor API will look like
-   so the test implementer knows what to expect.
+1. Append an entry to `$HANDOFF_LIST` (in-memory, carried through to Layer 8): area name + one-sentence refactor description (from the verdict) + pointer to its Layer-4 note path (`.ai-factory/specs/<NN>-<slug>.md`).
+2. Open the corresponding Layer 4 note and append a `## Refactor Required` section: what to refactor, and what the post-refactor API will look like so the test implementer knows what to expect.
 
 Log what was collected. No user confirmation needed — collect and continue.
 
@@ -307,11 +256,7 @@ Log what was collected. No user confirmation needed — collect and continue.
 
 ## Layer 7 — Existing Tests Run
 
-If `$TEST_CMD` is empty, do not execute it. Treat the project as having no
-runnable existing-test suite: skip the run, skip the failure classification,
-skip the green gate below, log it plainly (e.g. "No test command resolved —
-existing-test gate skipped"), and continue to Layer 8. Do not append anything
-to `$HANDOFF_LIST` — the skip is not a handoff task and has no pointer.
+If `$TEST_CMD` is empty, do not execute it. Treat the project as having no runnable existing-test suite: skip the run, skip the failure classification, skip the green gate below, log it plainly (e.g. "No test command resolved — existing-test gate skipped"), and continue to Layer 8. Do not append anything to `$HANDOFF_LIST` — the skip is not a handoff task and has no pointer.
 
 Otherwise, run the test suite:
 ```bash
@@ -320,11 +265,7 @@ Otherwise, run the test suite:
 
 If all tests pass: log "All existing tests pass."
 
-If any tests fail, launch one `general-purpose` agent with the full test
-output. The agent classifies failures only — it does not write any files.
-The Class A / Class B split below applies `test-philosophy`'s After-the-Fact
-Corollary — the agent runs in isolation and does not load the skill, so the
-classification stays inline in its prompt.
+If any tests fail, launch one `general-purpose` agent with the full test output. The agent classifies failures only — it does not write any files. The Class A / Class B split below applies `test-philosophy`'s After-the-Fact Corollary — the agent runs in isolation and does not load the skill, so the classification stays inline in its prompt.
 
 **Agent prompt:**
 
@@ -360,20 +301,11 @@ Return a markdown table only:
 
 Present the classification table to the user.
 
-**For each Class A failure:** patch the failing test to match the current
-source API. Keep assertions intact — only update the call signature.
+**For each Class A failure:** patch the failing test to match the current source API. Keep assertions intact — only update the call signature.
 
-**For each Class B failure:** append an entry to `$HANDOFF_LIST` — area name +
-reason from the classification table + the **source file** path (the
-classification table's `Source file` column). The source file matters as a
-fallback pointer: a Class B failure can belong to an area that never got a
-Layer-4 note — Layer 7 runs the whole suite, so a failing test may sit in a
-"Full coverage" area dropped in Layer 2, or a loud-failure area dropped in
-Layer 3 — and those items have no note path. Do NOT touch the test.
+**For each Class B failure:** append an entry to `$HANDOFF_LIST` — area name + reason from the classification table + the **source file** path (the classification table's `Source file` column). The source file matters as a fallback pointer: a Class B failure can belong to an area that never got a Layer-4 note — Layer 7 runs the whole suite, so a failing test may sit in a "Full coverage" area dropped in Layer 2, or a loud-failure area dropped in Layer 3 — and those items have no note path. Do NOT touch the test.
 
-Re-run `$TEST_CMD`. All tests must be green before Layer 8 — this gate
-applies only when `$TEST_CMD` resolved; the empty-command case already
-skipped straight to Layer 8 above.
+Re-run `$TEST_CMD`. All tests must be green before Layer 8 — this gate applies only when `$TEST_CMD` resolved; the empty-command case already skipped straight to Layer 8 above.
 
 ---
 
@@ -396,11 +328,9 @@ Existing-test gate: skipped (no test command resolved)
 Next step: /roadmap-decompose
 ```
 
-The `Existing-test gate` line prints only when Layer 7 skipped the gate for
-an empty `$TEST_CMD`; omit it entirely when Layer 7 ran the suite.
+The `Existing-test gate` line prints only when Layer 7 skipped the gate for an empty `$TEST_CMD`; omit it entirely when Layer 7 ran the suite.
 
-Then print `$HANDOFF_LIST` as concrete one-line task descriptions ready to
-paste into `/roadmap-decompose`:
+Then print `$HANDOFF_LIST` as concrete one-line task descriptions ready to paste into `/roadmap-decompose`:
 
 ```
 Handoff — paste into /roadmap-decompose:
@@ -415,12 +345,7 @@ Bugs (Class B — silent failures):
   - ...
 ```
 
-Per-item pointer: attach the Layer-4 note path when the item's area was
-researched — always true for refactor items, and true for Class B items
-whose failing test belongs to a researched area. Otherwise — for Class B
-items from an area that was never researched (dropped in Layer 2 or 3) —
-print the source file path captured in Layer 7. Every handoff line resolves
-to a pointer; none are left blank.
+Per-item pointer: attach the Layer-4 note path when the item's area was researched — always true for refactor items, and true for Class B items whose failing test belongs to a researched area. Otherwise — for Class B items from an area that was never researched (dropped in Layer 2 or 3) — print the source file path captured in Layer 7. Every handoff line resolves to a pointer; none are left blank.
 
 Do not run `/roadmap-decompose` automatically.
 
@@ -428,16 +353,9 @@ Do not run `/roadmap-decompose` automatically.
 
 ## Critical Rules
 
-1. **Never write new test files** — research and planning only. The one
-   allowed exception: Layer 7 patching an existing Class-A (API-drift)
-   failure — a test broken because the source API changed, not by an
-   implementation bug. Keep assertions intact — only update the call
-   signature.
+1. **Never write new test files** — research and planning only. The one allowed exception: Layer 7 patching an existing Class-A (API-drift) failure — a test broken because the source API changed, not by an implementation bug. Keep assertions intact — only update the call signature.
 2. **Never write ROADMAP_TESTS.md** — that is `/roadmap-decompose`'s job
-3. **Layer 4 and 5 agents return one line** — never read note contents back
-   into the orchestrator context
-4. **Layer 7 agent classifies only** — the orchestrator patches, never the
-   agent
-5. **Class B failures are wins** — the test caught a silent bug; escalate,
-   never suppress
+3. **Layer 4 and 5 agents return one line** — never read note contents back into the orchestrator context
+4. **Layer 7 agent classifies only** — the orchestrator patches, never the agent
+5. **Class B failures are wins** — the test caught a silent bug; escalate, never suppress
 6. **One note per area** — never merge multiple areas into one note
