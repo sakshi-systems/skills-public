@@ -64,13 +64,13 @@ What the candidates do not give, and the family would:
 - the directory and the conversation history kept in git, as part of the family's memory;
 - the adapters for systems with another rhythm.
 
-## Three roads an agent of another developer can take today
+## Three roads an agent of another developer can take
 
-Take one case. Another developer's agent reviews the user's pull request. It does not look into the shared store where the work's roadmap and specs sit, because nothing points it there: it reads the diff and the description, and the store is outside both. Three roads need little or nothing that does not exist, and each lies where its reader already looks.
+Take one case. Another developer's agent reviews the user's pull request. It does not look into the shared store where the work's roadmap and specs sit, because nothing points it there: it reads the diff and the description, and the store is outside both. Two of the three roads need nothing that does not exist, and each lies where its reader already looks.
 
 **The pull request's description.** The description names where the work's roadmap and specs live in the shared store. A reviewer reads the description anyway, so an address placed there is met at the moment the decision to look is made, while an instruction kept away from that moment does not act ([instruction-in-data](../instruction-in-data.md), [principles-at-their-moment](../philosophy/principles-at-their-moment.md)). It needs no one's consent.
 
-**The author is the one to ask.** A pull request arrives with its author attached, so the question a reviewing agent naturally has goes to whoever made it, and the author's receiving head, the head of its own among [the parts of the system](#the-parts-of-the-system), answers about the work. It is the road the heads of this family already take, to the one whose work lies in front of the asker.
+**The author is the one to ask.** A pull request arrives with its author attached, so the question a reviewing agent naturally has goes to whoever made it, and the author's receiving head, the head of its own among [the parts of the system](#the-parts-of-the-system), would answer about the work. It needs that head and the delivery bridge into it, both still to be built.
 
 **The thread.** A team that already accepts an automatic reviewer answering in the threads of pull requests has accepted an agent speaking there. A head that answers a review question in the thread uses a channel already consented to, so no protocol has to be argued for first.
 

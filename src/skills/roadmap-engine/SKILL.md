@@ -152,7 +152,7 @@ Apply changes if requested, then finalize: **only after "Looks good — save it"
 
 ### Update mode (subsequent run)
 
-**Read current state:** the map of `$TARGET_FILE` — its phase headings and phase intros and its open `[ ]` lines, plus the entries the flow changes, never the whole file — and a brief codebase check for what's changed since the last update.
+**Read current state:** the map of `$TARGET_FILE` — its phase headings and phase intros and its open `[ ]` lines, plus the entries the flow changes, never the whole file; for an entry added to a numbered phase, the read also takes the number in the bold lead of every line of that phase, done `[x]` lines included — numbers only, never a line's content, a lead `**N.M.k —` counting under its `M` — so the added task is numbered after the phase's true highest `M` — and a brief codebase check for what's changed since the last update.
 
 **Determine the action:** if the argument carries the requested changes, apply them directly. Otherwise present the action menu — the caller may register additional actions beyond these (hook d):
 
@@ -167,7 +167,7 @@ Options:
 ```
 
 - **Review progress:** scan the codebase for evidence of completed entries; for each unchecked **checkbox entry**, check whether the work appears done; propose marking the confirmed-done entries `[x]`; apply on confirmation; leave the rest unchanged. Entries whose shape carries no checkbox (e.g. a phase header) are never marked — where such an entry's child tasks are all `[x]`, its progress may be **reported** as complete, report-only.
-- **Add:** explore the codebase for each new entry, produce it per the caller's hook (a) shape (applying the per-entry gate hook if supplied, where the shape has a contract line to gate) — the two-tier `Spec:` placeholder mechanics apply only when that shape is two-tier — and insert each in logical order among existing entries.
+- **Add:** explore the codebase for each new entry, produce it per the caller's hook (a) shape (applying the per-entry gate hook if supplied, where the shape has a contract line to gate) — the two-tier `Spec:` placeholder mechanics apply only when that shape is two-tier — and insert each in logical order among existing entries. Before the save, for each added entry whose shape is **two-tier**, write its task spec and replace its `` Spec: `<note pending>`. `` placeholder with the real `` Spec: `.ai-factory/specs/<NN>-<slug>.md`. `` tag; an entry whose shape carries no placeholder needs neither.
 - **Reprioritize:** show the current order, ask for the new order or let the user describe priority changes, then reorder entries in `$TARGET_FILE`.
 - **Rewrite:** re-run the Create-mode draft→confirm cycle (gather input, explore, draft in memory, apply the per-entry gate hook, confirm) over the existing `$TARGET_FILE`, replacing on confirmation what it read — not the file.
 
@@ -218,7 +218,7 @@ Next up: **Entry Name**
 
 ### Critical rules (mechanism)
 
-1. **`$TARGET_FILE` is the source of truth** — always read its map (phase headings, phase intros, open `[ ]` lines and the entries being changed) before modifying, never the whole file, and modify in place.
+1. **`$TARGET_FILE` is the source of truth** — always read its map (phase headings, phase intros, open `[ ]` lines, the entries being changed and, for an entry added to a numbered phase, the number in the bold lead of each of that phase's lines, done ones included) before modifying, never the whole file, and modify in place.
 2. **Never remove entries silently** — always confirm with the user before removing.
 3. **Completed entries stay as `[x]` in the list** — `roadmap-prune` moves them to `ARCHITECTURE.md`.
 

@@ -8,7 +8,7 @@ A number in a durable artifact is one of two things, and only one of them is a d
 
 ## The test, in one sentence
 
-A number stays where **the sentence would still read true after someone adds a member without touching it.** A pair named in the same sentence that counts it cannot drift — "both doors", "the two gateways" — and stripping the count there loses precision for nothing. A measurement cannot pass this test by construction: adding a member is exactly what falsifies it.
+A number stays where **the sentence would still read true after someone adds a member without touching it.** A group whose members the sentence names, or one fixed by definition, cannot drift — "both doors, the front and the back", "the two gateways, inbound and outbound" — and stripping the count there loses precision for nothing. A measurement cannot pass this test by construction: adding a member is exactly what falsifies it.
 
 ## Why an agent suffers
 
@@ -18,7 +18,7 @@ A spec recorded the gate it was written against, dated to a commit, with the sui
 
 ## The worse failure is reconciling one
 
-**Never reconcile two counts, never fail anything on arithmetic.** The question that closes a disagreement is about membership, never about the figure: *which member does one list have that the other lacks?*
+**Never reconcile two counts measured from the tree, never fail anything on arithmetic over them.** The question that closes a disagreement is about membership, never about the figure: *which member does one list have that the other lacks?*
 
 Plain words carry size: "a couple of places change" means *this is small*, and no one checks it for exactly two. A figure that does appear is read as an order of magnitude — "five documents change" signals something wrong with the task's shape, and that, not the arithmetic, is worth acting on.
 
