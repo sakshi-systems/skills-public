@@ -97,7 +97,7 @@ Our skills live under `src/skills/` (commands under `src/commands/`, agent defin
 
 ## Origins
 
-The family's skills are originally based on [AI Factory](https://github.com/lee-to/ai-factory); `aif`, `aif-architecture`, `aif-docs` and `aif-plan` are reworked from their counterparts there. `ui-ux-pro-max` comes from [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT), and its notice stays in the skill's folder.
+The family's skills are originally based on [AI Factory](https://github.com/lee-to/ai-factory); `aif`, `aif-architecture` and `aif-plan` are reworked from their counterparts there. `ui-ux-pro-max` comes from [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT), and its notice stays in the skill's folder.
 
 ## Adding Skills
 
