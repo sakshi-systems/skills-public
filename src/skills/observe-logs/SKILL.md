@@ -1,7 +1,7 @@
 ---
 name: observe-logs
 description: >-
-  Pull structured log slices from a local Loki backend without re-deriving the
+  Pull structured log slices from a Loki backend without re-deriving the
   label schema each session. Covers three canned queries: logs since the last
   service restart, all lines for a trace ID, and an arbitrary time window with
   optional level/project/service filters. Use when debugging services ("logs",
@@ -13,7 +13,7 @@ allowed-tools: Bash Read
 
 # observe-logs
 
-A skill for pulling read-only log slices from the local Loki backend. It knows the label schema, the three most common slice patterns, and how to invoke `scripts/query-loki.sh` for each.
+A skill for pulling read-only log slices from the Loki backend. It knows the label schema, the three most common slice patterns, and how to invoke `scripts/query-loki.sh` for each.
 
 ---
 

@@ -22,7 +22,7 @@ Tuning the field has a boundary. The coarse edit is to write topology into a ski
 
 ## One vocabulary for the field
 
-Coherence requires every thing to be named by the artifact's own word. The artifact grammar (both bodies, `roadmap-engine`, [skill-cycle](sakshi-harness/skill-cycle.md)) is `### Phase N` (outline's product) and `N.M — task` (decompose's), and the skill-description-field names each tier by that same word: `roadmap-outline`'s skill-description calls its product "phases", `roadmap-decompose`'s calls its own "tasks". "Milestone" is retired from the vocabulary; it survives only as a user-facing trigger word (a phrase the agent maps by context, per [using-the-language](using-the-language.md)), never as the artifact's name. Naming each tier by its artifact's own word — "phase" where outline makes phases, "task" where decompose makes tasks — is a vocabulary edit, not a fact or a topology edit.
+Coherence requires every thing to be named by the artifact's own word. The artifact grammar (both bodies, `roadmap-engine`, [skill-cycle](sakshi-harness/skill-cycle.md)) is `### Phase N` (outline's product) and `N.M — task` (decompose's), and the skill-description-field names each tier by that same word: `roadmap-outline`'s skill-description calls its product "phases", `roadmap-decompose`'s calls its own "tasks". "Milestone" is retired from the vocabulary; a user who still says it is mapped by context, per [using-the-language](using-the-language.md), and no skill-description carries it. Naming each tier by its artifact's own word — "phase" where outline makes phases, "task" where decompose makes tasks — is a vocabulary edit, not a fact or a topology edit.
 
 ## The field is description, not leaf
 

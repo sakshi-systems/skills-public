@@ -1,20 +1,9 @@
 ---
 name: architect-editor-engine
 description: >-
-  Shared contract for the architect↔editor paired loop, loaded at birth by
-  the architect (`src/skills/agent-architect`) and a hand's definition
-  (`src/agents/<name>.md`). Holds the two channel-message formats — REPORT-ONLY
-  and APPLY-EDIT — with the rule that a receiver keys its mode strictly off the
-  token that literally opens each message, and the definition of the architect's
-  folder the pair shares — its buffer, its snapshots and its address file, with
-  their path and numbering — the rule that the head alone writes the buffer and
-  the hand reads it in full and writes only `editor/`, the hand's re-read of
-  the memory on change, and the drain rule — a project or skill ruling leaves the
-  buffer once it reaches the artifact that should hold it, the pair's base
-  behaviour goes to the buffer template and stays as a standing entry, and what was said
-  or failed twice is a debt to drain — and the rule that no architect reads
-  another's buffer, a hand only its own architect's. When-to-use
-  policy stays with the caller.
+  Shared contract for the architect↔editor paired loop: an engine holding the
+  two channel-message formats, REPORT-ONLY and APPLY-EDIT, and the definition of
+  the architect's buffer, the working memory the pair shares.
 user-invocable: false
 disable-model-invocation: false
 allowed-tools: Read

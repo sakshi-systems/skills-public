@@ -4,7 +4,7 @@ description: >-
   Generic distiller for research notes, task specs, and handoffs: extracts a
   concise summary from the current conversation context and saves it as a
   numbered file. Destination directory and section template are
-  caller-supplied, defaulting to today's research-note behavior when unset.
+  caller-supplied, defaulting to the research note at its default destination and template when unset.
   Use when finishing a research session, deep-dive, or exploration and you
   want to persist the key findings for future reference. Keywords: note,
   research, summary, findings, extract.
@@ -24,7 +24,7 @@ This is an engine: its callers depend on its exact behavior — edits here must 
 
 ### Hooks (caller inputs)
 
-Three optional inputs a caller may supply; all default to today's standalone behavior when unset:
+Three optional inputs a caller may supply; all default to the standalone behavior when unset — the research note at its default destination and template:
 
 - **Destination directory** — target directory for the note. Unset → default `.ai-factory/notes/` exactly as now. When set, every directory-scoped step uses it: the `mkdir -p`, the numbering scan, and the final path. The numbering scan matches files whose name begins with a run of one or more digits followed by a hyphen and ends in `.md` — `` `^[0-9]+-.*\.md$` `` — and reads that leading run as an integer, comparing numerically rather than as a string, so `100-…` ranks above `99-…`. Numbering stays **per-directory** (scan the chosen directory only).
 - **Template** — a section skeleton for the note body, or a free-form (non-skeleton) body directive the caller passes verbatim. Unset → the current default template (Key Findings / Details / Open Questions). When set, the note body follows the caller's directive verbatim — a section skeleton or a free-form structure (grid or prose); `note` supplies only the mechanism (mining, distillation, numbering, placement) and does not reshape the caller's structure.

@@ -1,6 +1,6 @@
 ---
 name: roadmap-outline
-description: Create or update a project roadmap with major phases. Generates .ai-factory/ROADMAP.md — a strategic checklist of high-level goals. Use when user says "roadmap", "project plan", "milestones", or "what to build next".
+description: Create or update a project roadmap with major phases. Generates .ai-factory/ROADMAP.md — phases, each a header with a short intro and a phase note, never a checkbox. Use when user says "roadmap", "project plan", or "what to build next".
 argument-hint: "[project vision or requirements]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) Bash(rm *) AskUserQuestion Skill
 loads: roadmap-engine note

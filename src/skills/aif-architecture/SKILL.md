@@ -1,6 +1,6 @@
 ---
 name: aif-architecture
-description: Generate architecture guidelines for the project. Analyzes tech stack from the project CLAUDE.md and codebase, recommends an architecture pattern, and creates .ai-factory/ARCHITECTURE.md. Use when setting up project architecture, asking "which architecture", or after /aif setup.
+description: Generate architecture guidelines for the project. Analyzes tech stack from the project CLAUDE.md and codebase, recommends an architecture pattern, and creates .ai-factory/ARCHITECTURE.md. Use when setting up project architecture or asking "which architecture".
 argument-hint: "[microservices|layers|structured|structured-layers|structured-vertical|explicit|explicit-layers|explicit-vertical|explicit-flat] (legacy aliases: clean, ddd, monolith, vertical → mapped to explicit or structured)"
 allowed-tools: Read Write Glob Grep Bash(mkdir *) AskUserQuestion
 disable-model-invocation: false

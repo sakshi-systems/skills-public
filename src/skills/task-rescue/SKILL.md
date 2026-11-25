@@ -1,11 +1,11 @@
 ---
 name: task-rescue
 description: >-
-  Repairs a task that did not land as its spec meant (an orchestrator run stopped by a
+  Repairs a task that did not land as its task spec meant (an orchestrator run stopped by a
   failure or an escalation) to the depth of the root cause: reads the artifacts the run
   left, writes its report with the intended repair and rollback, applies them so the
   orchestrator re-validates from there, and checks open tasks below for the same gap.
-  Trigger phrases: "rescue", "milestone failed", "orchestrator run stopped".
+  Trigger phrases: "rescue", "orchestrator run stopped".
 argument-hint: "[path/to/ROADMAP.md | ROADMAP_TESTS.md]"
 allowed-tools: Read Write Edit Glob Grep Bash(git *) Bash(rm *) Bash(mkdir *) AskUserQuestion Skill
 loads: orchestrator-artifacts roadmap-engine note
