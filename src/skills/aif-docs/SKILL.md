@@ -13,7 +13,7 @@ This skill stands on the global CLAUDE.md § "Documentation style" and § "Groun
 
 ## What a doc is about
 
-The subject is behavior, invariants, protocols, data flows, and connections. Where the code exists, read it and treat it as the referent. Where it does not yet exist, the doc itself is the contract: gather the target behavior from the stated user intent, the task spec, or the ROADMAP phase where one is discoverable, and write it in present tense as if it already ships.
+The subject is behavior, invariants, protocols, data flows, and connections. The target behavior comes from the stated user intent, the task spec, or the ROADMAP phase where one is discoverable, and is written in present tense as if it already ships. The code is the baseline the target changes from, and the referent where nothing changes it.
 
 ## Where it is written
 
