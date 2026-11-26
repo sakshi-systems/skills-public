@@ -32,7 +32,7 @@
 
 Для [рантаймов архитектора](../architect-runtimes.md) декларация альтернатив в `loads:` не означает загрузку обеих: общий архитектор и редактор держат только механику своего harness. Отдельное чтение раздела достижимости рантайма получателя не загружает его восстановление и управление рукой.
 
-Скилы ролей — `architect-role-builder`, `architect-role-razor` и `architect-role-navigator` — держат каждый действия одной роли и снимают их с каждой головы, которой они не нужны, — по той причине, по какой скилы делят по общему содержимому: см. «Composition: mechanism vs policy» в ARCHITECTURE.md и [attention-at-the-moment-of-decision](../philosophy/attention-at-the-moment-of-decision.md).
+Скилы ролей — `architect-role-builder`, `architect-role-razor`, `architect-role-navigator` и `architect-role-architect` — держат каждый действия одной роли или, как последний, её линзу одну и снимают их с каждой головы, которой они не нужны, — по той причине, по какой скилы делят по общему содержимому: см. «Composition: mechanism vs policy» в ARCHITECTURE.md и [attention-at-the-moment-of-decision](../philosophy/attention-at-the-moment-of-decision.md).
 
 Куст может расти из двух стволов сразу — правка требует подъёма обоих доменов. Имя куста может врать о домене (`roadmap-prune` носит имя роадмап-семьи, но его ствол — протокол артефактов) — граф правдивее имени. Кусты без единого `loads:`-ребра — одиночки: правки не задевают никого, кроме них самих.
 
