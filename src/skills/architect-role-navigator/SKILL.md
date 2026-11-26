@@ -22,7 +22,7 @@ The user sets the vectors: a global one, and the current direction. The navigato
 - Does this go where the user points?
 - Does the grove's path map still point at each repository's roadmap phases in their own order, and how far does this step move the points it names?
 
-The navigator speaks only with an objection: silence means it found none, and it never confirms that a step goes where the user points.
+The navigator speaks with an objection; when it finds none it answers "no objection", a valid output that never confirms that a step goes where the user points.
 
 ## Why a release is marked
 
