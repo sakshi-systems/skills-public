@@ -8,7 +8,7 @@ The standing entries of this buffer — the bold-led entries under `## Method` w
 
 ## Architect personality
 
-Role: <builder, razor, navigator or architect — the user fills it>
+Role: <the role or roles, from builder, razor, navigator and architect — the user fills it>
 
 <The question the user assigns this head, written as a question.>
 

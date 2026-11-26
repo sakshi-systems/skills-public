@@ -24,7 +24,7 @@ A public repository is not a mirror of the closed one and does not share its com
 
 ## How a release is cut
 
-A release is cut when the navigator says it is due, and the text of its marker, which the navigator places, becomes the description of the public pull request. Every group the marker collects is already in the closed repository's `dev`, merged by rebase and fast-forward and never by a merge commit, so the history reads as what happened.
+A release is cut when the navigator says it is due. Its marker, which the navigator places, stays bare in the roadmap while it is open; at the cut the navigator writes the release text from what landed, and the builder checks it against the landed code and puts it in the public pull request's body, from which the GitHub release is published. Release notes live on GitHub and never in the roadmap. Every group the marker collects is already in the closed repository's `dev`, merged by rebase and fast-forward and never by a merge commit, so the history reads as what happened.
 
 The release branch is brought to the product at the release point. The orchestrator's is taken by its include list: the code and its tests whole, and the listed docs whole, since a doc may run ahead of the code and trimming it for a release would contradict what it is; the public README is kept as it stands, and the version is set where the project carries it. The skills' is the difference since the last cut, applied onto a clone of the public repository's `main`. In either cut a link from the product to a document outside the public set becomes its plain text, and the paths another public repository links by absolute address keep their place across releases: `docs/architect-runtimes.md`, the two `architect-runtime-*` skills, and `src/skills/roadmap-engine/scripts/user-slug.sh`.
 
@@ -44,7 +44,7 @@ On the merge, the public `main` is fast-forwarded to the release branch's tip, n
 
 ## The roadmap closes last
 
-The roadmap records the release last. Its `---RELEASE---` marker keeps the version, `vX.Y.Z`, alone, and the `---PR---` markers of the groups the release collected leave; the change is refused while a group whose marker would leave still holds an open task. It is committed into `dev` with the release's closure.
+The roadmap records the release last. Its `---RELEASE---` marker, bare until now, keeps the version, `vX.Y.Z`, alone, and the `---PR---` markers of the groups the release collected leave; the change is refused while a group whose marker would leave still holds an open task. It is committed into `dev` with the release's closure.
 
 ## Why the line runs here
 

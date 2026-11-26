@@ -68,4 +68,4 @@ The marker carries a description, which says why its phases go together. At the 
 
 A marker is a line of its own with its exact characters, as `---STOP---` and `---WON'T FIX---` are. Its description sits on the lines directly beneath it, up to the next blank line, and a blank line stands above the marker and below its description.
 
-At a release the builder has a part too, though it does not place the marker. When the navigator says a `---RELEASE---` is due, the builder's hand writes the marker line, because only the builder writes, and the builder executes the cut by the project's instructions. The navigator places the marker itself and tells the builder when it comes due.
+At a release the builder has a part too. Because only the builder writes, its hand types the `---RELEASE---` marker line, and the builder executes the cut by the project's instructions. It checks the release text it receives against the landed code and puts it in the public pull request's body, from which the GitHub release is published. Release notes live on GitHub, never in the roadmap.
